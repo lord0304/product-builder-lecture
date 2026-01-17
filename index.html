@@ -380,6 +380,11 @@
       font-size: 14px;
     }
 
+    .field input::placeholder,
+    .field textarea::placeholder{
+      color: rgba(255,255,255,0.62);
+    }
+
     .field textarea{
       min-height: 120px;
       resize: vertical;
@@ -431,6 +436,28 @@
       margin: 0;
       font-size: 18px;
       letter-spacing:-0.2px;
+    }
+
+    #disqus_thread{
+      padding: 10px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.92);
+      color: rgba(12,16,24,0.92);
+    }
+
+    body[data-theme="light"] .field input::placeholder,
+    body[data-theme="light"] .field textarea::placeholder{
+      color: rgba(12,16,24,0.45);
+    }
+
+    body[data-theme="light"] #disqus_thread{
+      background: rgba(255,255,255,0.96);
+      color: rgba(12,16,24,0.92);
+    }
+
+    body[data-theme="dark"] #disqus_thread{
+      background: rgba(255,255,255,0.96);
+      color: rgba(12,16,24,0.92);
     }
 
     .note{
