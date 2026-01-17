@@ -314,6 +314,127 @@
     }
     .mono{ font-family: var(--mono); }
 
+    .divider{
+      height: 1px;
+      margin: 14px 0 6px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+      border: none;
+    }
+
+    .partner{
+      margin-top: 14px;
+      padding: 16px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.06);
+      display:grid;
+      gap: 12px;
+    }
+
+    .partner h2{
+      margin: 0;
+      font-size: 18px;
+      letter-spacing:-0.2px;
+    }
+
+    .partner p{
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .partner-form{
+      display:grid;
+      gap: 12px;
+    }
+
+    .partner-grid{
+      display:grid;
+      gap: 12px;
+    }
+
+    .field{
+      display:grid;
+      gap: 6px;
+    }
+
+    .field label{
+      font-size: 12px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .field input,
+    .field textarea,
+    .field select{
+      width: 100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: var(--control-bg);
+      color: var(--text);
+      outline: none;
+      font-size: 14px;
+    }
+
+    .field textarea{
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .partner-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .partner-status{
+      display:none;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(0,0,0,0.28);
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    .partner-status.show{
+      display:block;
+    }
+
+    .partner-status.success{
+      border-color: rgba(120,255,150,0.35);
+      background: rgba(120,255,150,0.12);
+    }
+
+    .partner-status.error{
+      border-color: rgba(255,120,120,0.35);
+      background: rgba(255,120,120,0.12);
+    }
+
+    .note{
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .honeypot{
+      position: absolute;
+      left: -9999px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @media (min-width: 720px){
+      .partner-grid{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
     .toast{
       position: fixed;
       bottom: 18px;
@@ -394,6 +515,64 @@
           <div id="metaText">Randomized from curated menu ideas.</div>
           <div id="last" class="mono">last: -</div>
         </div>
+
+        <hr class="divider" aria-hidden="true" />
+
+        <section class="partner" id="partnerSection" aria-label="Partnership enquiry form">
+          <div>
+            <h2 id="partnerTitle">Partnership enquiry</h2>
+            <p id="partnerIntro">Tell us about your brand, audience, and collaboration idea. We will reply within 3 business days.</p>
+          </div>
+
+          <form class="partner-form" id="partnerForm" action="https://formspree.io/f/xqeeenqr" method="POST">
+            <input class="honeypot" type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+            <input type="hidden" name="_subject" id="partnerSubject" value="New partnership enquiry" />
+
+            <div class="partner-grid">
+              <div class="field">
+                <label for="partnerName" id="partnerNameLabel">Name</label>
+                <input id="partnerName" name="name" type="text" placeholder="Jane Park" required />
+              </div>
+              <div class="field">
+                <label for="partnerEmail" id="partnerEmailLabel">Email</label>
+                <input id="partnerEmail" name="email" type="email" placeholder="jane@studio.com" required />
+              </div>
+              <div class="field">
+                <label for="partnerCompany" id="partnerCompanyLabel">Company</label>
+                <input id="partnerCompany" name="company" type="text" placeholder="Studio Name" />
+              </div>
+              <div class="field">
+                <label for="partnerWebsite" id="partnerWebsiteLabel">Website</label>
+                <input id="partnerWebsite" name="website" type="url" placeholder="https://studio.com" />
+              </div>
+              <div class="field">
+                <label for="partnerType" id="partnerTypeLabel">Partnership type</label>
+                <select id="partnerType" name="partnership_type">
+                  <option value="brand" id="partnerTypeBrand">Brand collaboration</option>
+                  <option value="sponsorship" id="partnerTypeSponsor">Sponsorship</option>
+                  <option value="affiliate" id="partnerTypeAffiliate">Affiliate or referral</option>
+                  <option value="content" id="partnerTypeContent">Content or media</option>
+                  <option value="other" id="partnerTypeOther">Other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="partnerTimeline" id="partnerTimelineLabel">Timeline</label>
+                <input id="partnerTimeline" name="timeline" type="text" placeholder="Q2 launch, 6-week campaign" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="partnerMessage" id="partnerMessageLabel">Project details</label>
+              <textarea id="partnerMessage" name="message" placeholder="Share goals, audience size, and any success metrics." required></textarea>
+            </div>
+
+            <div class="partner-actions">
+              <button class="btn primary" id="partnerSubmit" type="submit">Send enquiry</button>
+              <span class="note" id="partnerNote">By submitting, you agree we can reply to your email.</span>
+            </div>
+            <div class="partner-status" id="partnerStatus" role="status" aria-live="polite"></div>
+          </form>
+        </section>
       </div>
     </div>
   </div>
@@ -417,6 +596,32 @@
     const $metaText = document.getElementById('metaText');
     const $badgeText = document.getElementById('badgeText');
     const $metaDesc = document.querySelector('meta[name="description"]');
+    const $partnerTitle = document.getElementById('partnerTitle');
+    const $partnerIntro = document.getElementById('partnerIntro');
+    const $partnerSection = document.getElementById('partnerSection');
+    const $partnerNameLabel = document.getElementById('partnerNameLabel');
+    const $partnerEmailLabel = document.getElementById('partnerEmailLabel');
+    const $partnerCompanyLabel = document.getElementById('partnerCompanyLabel');
+    const $partnerWebsiteLabel = document.getElementById('partnerWebsiteLabel');
+    const $partnerTypeLabel = document.getElementById('partnerTypeLabel');
+    const $partnerTimelineLabel = document.getElementById('partnerTimelineLabel');
+    const $partnerMessageLabel = document.getElementById('partnerMessageLabel');
+    const $partnerTypeBrand = document.getElementById('partnerTypeBrand');
+    const $partnerTypeSponsor = document.getElementById('partnerTypeSponsor');
+    const $partnerTypeAffiliate = document.getElementById('partnerTypeAffiliate');
+    const $partnerTypeContent = document.getElementById('partnerTypeContent');
+    const $partnerTypeOther = document.getElementById('partnerTypeOther');
+    const $partnerSubmit = document.getElementById('partnerSubmit');
+    const $partnerNote = document.getElementById('partnerNote');
+    const $partnerSubject = document.getElementById('partnerSubject');
+    const $partnerForm = document.getElementById('partnerForm');
+    const $partnerStatus = document.getElementById('partnerStatus');
+    const $partnerName = document.getElementById('partnerName');
+    const $partnerEmail = document.getElementById('partnerEmail');
+    const $partnerCompany = document.getElementById('partnerCompany');
+    const $partnerWebsite = document.getElementById('partnerWebsite');
+    const $partnerTimeline = document.getElementById('partnerTimeline');
+    const $partnerMessage = document.getElementById('partnerMessage');
 
     let lastResultText = "";
     let lastStamp = "-";
@@ -447,6 +652,33 @@
         ariaCount: "Pick count",
         ariaLang: "Language",
         description: "Get dinner ideas with a single tap. Toggle English or Mandarin for Chinese visitors.",
+        partnerTitle: "Partnership enquiry",
+        partnerIntro: "Tell us about your brand, audience, and collaboration idea. We will reply within 3 business days.",
+        partnerAria: "Partnership enquiry form",
+        partnerName: "Name",
+        partnerEmail: "Email",
+        partnerCompany: "Company",
+        partnerWebsite: "Website",
+        partnerType: "Partnership type",
+        partnerTimeline: "Timeline",
+        partnerMessage: "Project details",
+        partnerTypeBrand: "Brand collaboration",
+        partnerTypeSponsor: "Sponsorship",
+        partnerTypeAffiliate: "Affiliate or referral",
+        partnerTypeContent: "Content or media",
+        partnerTypeOther: "Other",
+        partnerSubmit: "Send enquiry",
+        partnerNote: "By submitting, you agree we can reply to your email.",
+        partnerSubject: "New partnership enquiry",
+        partnerPlaceholderName: "Jane Park",
+        partnerPlaceholderEmail: "jane@studio.com",
+        partnerPlaceholderCompany: "Studio Name",
+        partnerPlaceholderWebsite: "https://studio.com",
+        partnerPlaceholderTimeline: "Q2 launch, 6-week campaign",
+        partnerPlaceholderMessage: "Share goals, audience size, and any success metrics.",
+        partnerStatusSending: "Sending...",
+        partnerStatusSuccess: "Thanks for reaching out! We will get back to you soon.",
+        partnerStatusError: "Something went wrong. Please try again or email us directly.",
         optionLabel: (n) => `Option ${n}`,
         countOption: (n) => n === 1 ? "1 pick" : `${n} picks`
       },
@@ -472,6 +704,33 @@
         ariaCount: "推荐数量",
         ariaLang: "语言",
         description: "一键获取晚餐灵感，支持英文与中文切换。",
+        partnerTitle: "合作咨询",
+        partnerIntro: "介绍你的品牌、受众与合作想法，我们将在 3 个工作日内回复。",
+        partnerAria: "合作咨询表单",
+        partnerName: "姓名",
+        partnerEmail: "邮箱",
+        partnerCompany: "公司",
+        partnerWebsite: "网站",
+        partnerType: "合作类型",
+        partnerTimeline: "时间安排",
+        partnerMessage: "项目说明",
+        partnerTypeBrand: "品牌合作",
+        partnerTypeSponsor: "赞助",
+        partnerTypeAffiliate: "联盟或推荐",
+        partnerTypeContent: "内容或媒体",
+        partnerTypeOther: "其他",
+        partnerSubmit: "提交咨询",
+        partnerNote: "提交即表示你同意我们通过邮件回复。",
+        partnerSubject: "新的合作咨询",
+        partnerPlaceholderName: "王晓妍",
+        partnerPlaceholderEmail: "xiaoyan@studio.cn",
+        partnerPlaceholderCompany: "品牌名称",
+        partnerPlaceholderWebsite: "https://studio.cn",
+        partnerPlaceholderTimeline: "第二季度上线，6 周活动",
+        partnerPlaceholderMessage: "请分享目标、受众规模与衡量指标。",
+        partnerStatusSending: "发送中...",
+        partnerStatusSuccess: "感谢联系！我们会尽快回复。",
+        partnerStatusError: "提交失败，请重试或通过邮件联系。",
         optionLabel: (n) => `选项 ${n}`,
         countOption: (n) => `${n}份`
       }
@@ -611,6 +870,78 @@
       if ($metaDesc) {
         $metaDesc.setAttribute('content', i18n[lang].description);
       }
+      if ($partnerTitle) {
+        $partnerTitle.textContent = i18n[lang].partnerTitle;
+      }
+      if ($partnerIntro) {
+        $partnerIntro.textContent = i18n[lang].partnerIntro;
+      }
+      if ($partnerSection) {
+        $partnerSection.setAttribute('aria-label', i18n[lang].partnerAria);
+      }
+      if ($partnerNameLabel) {
+        $partnerNameLabel.textContent = i18n[lang].partnerName;
+      }
+      if ($partnerEmailLabel) {
+        $partnerEmailLabel.textContent = i18n[lang].partnerEmail;
+      }
+      if ($partnerCompanyLabel) {
+        $partnerCompanyLabel.textContent = i18n[lang].partnerCompany;
+      }
+      if ($partnerWebsiteLabel) {
+        $partnerWebsiteLabel.textContent = i18n[lang].partnerWebsite;
+      }
+      if ($partnerTypeLabel) {
+        $partnerTypeLabel.textContent = i18n[lang].partnerType;
+      }
+      if ($partnerTimelineLabel) {
+        $partnerTimelineLabel.textContent = i18n[lang].partnerTimeline;
+      }
+      if ($partnerMessageLabel) {
+        $partnerMessageLabel.textContent = i18n[lang].partnerMessage;
+      }
+      if ($partnerTypeBrand) {
+        $partnerTypeBrand.textContent = i18n[lang].partnerTypeBrand;
+      }
+      if ($partnerTypeSponsor) {
+        $partnerTypeSponsor.textContent = i18n[lang].partnerTypeSponsor;
+      }
+      if ($partnerTypeAffiliate) {
+        $partnerTypeAffiliate.textContent = i18n[lang].partnerTypeAffiliate;
+      }
+      if ($partnerTypeContent) {
+        $partnerTypeContent.textContent = i18n[lang].partnerTypeContent;
+      }
+      if ($partnerTypeOther) {
+        $partnerTypeOther.textContent = i18n[lang].partnerTypeOther;
+      }
+      if ($partnerSubmit) {
+        $partnerSubmit.textContent = i18n[lang].partnerSubmit;
+      }
+      if ($partnerNote) {
+        $partnerNote.textContent = i18n[lang].partnerNote;
+      }
+      if ($partnerSubject) {
+        $partnerSubject.value = i18n[lang].partnerSubject;
+      }
+      if ($partnerName) {
+        $partnerName.placeholder = i18n[lang].partnerPlaceholderName;
+      }
+      if ($partnerEmail) {
+        $partnerEmail.placeholder = i18n[lang].partnerPlaceholderEmail;
+      }
+      if ($partnerCompany) {
+        $partnerCompany.placeholder = i18n[lang].partnerPlaceholderCompany;
+      }
+      if ($partnerWebsite) {
+        $partnerWebsite.placeholder = i18n[lang].partnerPlaceholderWebsite;
+      }
+      if ($partnerTimeline) {
+        $partnerTimeline.placeholder = i18n[lang].partnerPlaceholderTimeline;
+      }
+      if ($partnerMessage) {
+        $partnerMessage.placeholder = i18n[lang].partnerPlaceholderMessage;
+      }
 
       Array.from($count.options).forEach((opt) => {
         const n = parseInt(opt.value, 10);
@@ -673,6 +1004,45 @@
     $lang.addEventListener('change', () => {
       applyLang($lang.value);
     });
+
+    if ($partnerForm) {
+      $partnerForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if ($partnerSubmit) {
+          $partnerSubmit.disabled = true;
+        }
+        if ($partnerStatus) {
+          $partnerStatus.className = "partner-status show";
+          $partnerStatus.textContent = i18n[currentLang].partnerStatusSending;
+        }
+        try {
+          const response = await fetch($partnerForm.action, {
+            method: "POST",
+            body: new FormData($partnerForm),
+            headers: {
+              Accept: "application/json"
+            }
+          });
+          if (!response.ok) {
+            throw new Error("Form submit failed");
+          }
+          if ($partnerStatus) {
+            $partnerStatus.className = "partner-status show success";
+            $partnerStatus.textContent = i18n[currentLang].partnerStatusSuccess;
+          }
+          $partnerForm.reset();
+        } catch (err) {
+          if ($partnerStatus) {
+            $partnerStatus.className = "partner-status show error";
+            $partnerStatus.textContent = i18n[currentLang].partnerStatusError;
+          }
+        } finally {
+          if ($partnerSubmit) {
+            $partnerSubmit.disabled = false;
+          }
+        }
+      });
+    }
 
     (function initLang(){
       const storedLang = localStorage.getItem('lang');
