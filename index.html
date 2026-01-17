@@ -1,14 +1,480 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>로또 번호 추천기</title>
+  <meta name="description" content="버튼을 누르면 로또 번호(1~45) 6개를 추천해주는 간단한 웹사이트" />
+  <style>
+    :root{
+      --bg1:#050814;
+      --bg2:#0a1240;
+
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.72);
+      --line: rgba(255,255,255,0.14);
+
+      --card: rgba(255,255,255,0.10);
+      --shadow: 0 18px 60px rgba(0,0,0,0.40);
+      --radius: 20px;
+
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Apple SD Gothic Neo", "Noto Sans KR", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans", sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color: var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 24px;
+
+      /* COLORFUL BACKGROUND */
+      background:
+        radial-gradient(900px 600px at 10% 10%, rgba(255, 90, 150, 0.28), transparent 60%),
+        radial-gradient(900px 650px at 90% 15%, rgba(90, 200, 255, 0.24), transparent 58%),
+        radial-gradient(1000px 720px at 55% 95%, rgba(120, 255, 150, 0.18), transparent 60%),
+        radial-gradient(900px 650px at 85% 85%, rgba(255, 220, 90, 0.14), transparent 60%),
+        linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 70%, #050713 100%);
+      overflow-x:hidden;
+    }
+
+    .wrap{ width: min(760px, 100%); }
+
+    .card{
+      position:relative;
+      padding: 22px;
+      border-radius: 30px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    /* extra colorful glow */
+    .glow{
+      position:absolute;
+      inset:-160px -180px auto auto;
+      width:520px;
+      height:520px;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 25% 25%, rgba(255,90,150,0.25), transparent 55%),
+        radial-gradient(circle at 70% 35%, rgba(90,200,255,0.22), transparent 60%),
+        radial-gradient(circle at 55% 75%, rgba(120,255,150,0.18), transparent 62%),
+        radial-gradient(circle at 35% 75%, rgba(255,220,90,0.14), transparent 62%);
+      filter: blur(1px);
+      pointer-events:none;
+    }
+
+    header{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+      margin-bottom: 14px;
+    }
+
+    h1{
+      margin:0;
+      font-size: clamp(22px, 3vw, 30px);
+      letter-spacing:-0.4px;
+      line-height:1.15;
+    }
+    .sub{
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height:1.7;
+      font-size: 14px;
+      max-width: 60ch;
+    }
+
+    /* Replaced "index.html · offline OK" badge */
+    .badge{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255,255,255,0.86);
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background:
+        linear-gradient(135deg, rgba(255,90,150,0.22), rgba(90,200,255,0.18), rgba(120,255,150,0.16));
+      box-shadow: 0 10px 22px rgba(0,0,0,0.25);
+      white-space:nowrap;
+    }
+
+    .panel{
+      display:grid;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .numbers{
+      padding: 16px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.06);
+      min-height: 86px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .hint{
+      color: var(--muted);
+      font-size: 13px;
+      line-height:1.7;
+    }
+
+    .setRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      align-items:center;
+    }
+
+    .setLabel{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255,255,255,0.80);
+      padding: 6px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(0,0,0,0.18);
+      margin-right: 4px;
+    }
+
+    .ball{
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight: 900;
+      letter-spacing:-0.2px;
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 12px 26px rgba(0,0,0,0.28);
+      user-select:none;
+      transform: translateY(0);
+      transition: transform .12s ease, filter .12s ease;
+      color: rgba(255,255,255,0.95);
+    }
+    .ball:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+
+    /* Colorful ball gradients by number range */
+    .c1{ background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.24), rgba(255,90,150,0.70)); }
+    .c2{ background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.24), rgba(255,140,80,0.70)); }
+    .c3{ background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.24), rgba(255,220,90,0.70)); }
+    .c4{ background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.24), rgba(120,255,150,0.62)); }
+    .c5{ background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.24), rgba(90,200,255,0.66)); }
+    .c6{ background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.24), rgba(183,166,255,0.70)); }
+
+    .controls{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .left-controls{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      align-items:center;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.07);
+      color: var(--text);
+      font-weight: 800;
+      font-size: 14px;
+      cursor:pointer;
+      transition: transform .12s ease, background .12s ease, opacity .12s ease, filter .12s ease;
+      user-select:none;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.12);
+      filter: brightness(1.03);
+    }
+
+    .btn.primary{
+      border-color: transparent;
+      background: linear-gradient(135deg,
+        rgba(255,90,150,0.40),
+        rgba(255,220,90,0.30),
+        rgba(90,200,255,0.34),
+        rgba(120,255,150,0.28)
+      );
+      box-shadow: 0 14px 34px rgba(0,0,0,0.20);
+    }
+
+    .btn:disabled{
+      opacity:0.55;
+      cursor:not-allowed;
+      transform:none;
+      filter:none;
+    }
+
+    .link{
+      color: rgba(255,255,255,0.92);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.32);
+    }
+    .link:hover{
+      border-bottom-color: rgba(255,255,255,0.75);
+    }
+
+    .opt{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    select{
+      padding: 10px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(10,14,28,0.55);
+      color: var(--text);
+      outline:none;
+      font-size: 14px;
+    }
+
+    .meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px 14px;
+      align-items:center;
+      justify-content:space-between;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.10);
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .mono{ font-family: var(--mono); }
+
+    .toast{
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.55);
+      color: rgba(255,255,255,0.92);
+      border: 1px solid rgba(255,255,255,0.14);
+      backdrop-filter: blur(10px);
+      padding: 10px 12px;
+      border-radius: 14px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+      opacity: 0;
+      pointer-events:none;
+      transition: opacity .18s ease, transform .18s ease;
+      font-size: 13px;
+      max-width: calc(100% - 24px);
+      text-align:center;
+      z-index:999;
+    }
+    .toast.show{
+      opacity: 1;
+      transform: translateX(-50%) translateY(-2px);
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+  <div class="wrap">
+    <div class="card">
+      <div class="glow" aria-hidden="true"></div>
+
+      <header>
+        <div>
+          <h1>로또 번호 추천기 🎲</h1>
+          <p class="sub">
+            버튼을 누르면 <b>1~45</b>에서 중복 없이 <b>6개</b>를 뽑아 정렬해 보여줍니다.
+          </p>
+          <p class="sub">
+            강의 자료: <a class="link" href="https://github.com/lord0304/product-builder-lecture" target="_blank" rel="noopener">product-builder-lecture</a>
+          </p>
+        </div>
+
+        <!-- UPDATED BADGE (removed "index.html · offline OK") -->
+        <div class="badge" title="강의 자료 레포">product-builder-lecture</div>
+      </header>
+
+      <div class="panel">
+        <div class="numbers" id="numbers" aria-live="polite" aria-label="추천 번호">
+          <span class="hint">아래 <b>번호 추천</b> 버튼을 눌러 번호를 받아보세요 ✨</span>
+        </div>
+
+        <div class="controls">
+          <div class="left-controls">
+            <button class="btn primary" id="btnPick" type="button">번호 추천</button>
+            <button class="btn" id="btnCopy" type="button" disabled>복사</button>
+            <button class="btn" id="btnAgain" type="button" disabled>다시 뽑기</button>
+          </div>
+
+          <div class="opt" aria-label="옵션">
+            <label for="count">세트 수</label>
+            <select id="count" aria-label="세트 수 선택">
+              <option value="1" selected>1세트</option>
+              <option value="2">2세트</option>
+              <option value="3">3세트</option>
+              <option value="5">5세트</option>
+              <option value="10">10세트</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="meta">
+          <div>랜덤 방식: <span class="mono">Fisher–Yates shuffle</span> + 상위 6개</div>
+          <div id="last" class="mono">last: -</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const $numbers = document.getElementById('numbers');
+    const $btnPick = document.getElementById('btnPick');
+    const $btnCopy = document.getElementById('btnCopy');
+    const $btnAgain = document.getElementById('btnAgain');
+    const $count = document.getElementById('count');
+    const $last = document.getElementById('last');
+    const $toast = document.getElementById('toast');
+
+    let lastResultText = "";
+
+    function toast(msg){
+      $toast.textContent = msg;
+      $toast.classList.add('show');
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => $toast.classList.remove('show'), 1400);
+    }
+
+    function nowStamp(){
+      const d = new Date();
+      const pad = (n) => String(n).padStart(2,'0');
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    }
+
+    // RNG: crypto if available, else Math.random
+    function randInt(min, maxInclusive){
+      const range = maxInclusive - min + 1;
+      if (window.crypto && window.crypto.getRandomValues) {
+        const maxUint = 0xFFFFFFFF;
+        const limit = maxUint - (maxUint % range);
+        const buf = new Uint32Array(1);
+        let x;
+        do {
+          window.crypto.getRandomValues(buf);
+          x = buf[0];
+        } while (x >= limit);
+        return min + (x % range);
+      }
+      return min + Math.floor(Math.random() * range);
+    }
+
+    function pickOneSet(){
+      const arr = Array.from({length:45}, (_,i)=>i+1);
+
+      // Fisher–Yates shuffle
+      for(let i = arr.length - 1; i > 0; i--){
+        const j = randInt(0, i);
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+
+      return arr.slice(0,6).sort((a,b)=>a-b);
+    }
+
+    function colorClass(n){
+      if (n <= 10) return 'c1';
+      if (n <= 20) return 'c2';
+      if (n <= 30) return 'c3';
+      if (n <= 35) return 'c4';
+      if (n <= 40) return 'c5';
+      return 'c6';
+    }
+
+    function renderSets(sets){
+      $numbers.innerHTML = "";
+
+      sets.forEach((set, idx) => {
+        const row = document.createElement('div');
+        row.className = "setRow";
+
+        const label = document.createElement('div');
+        label.className = "setLabel";
+        label.textContent = `${idx+1}세트`;
+        row.appendChild(label);
+
+        set.forEach(n => {
+          const ball = document.createElement('div');
+          ball.className = `ball ${colorClass(n)}`;
+          ball.textContent = n;
+          row.appendChild(ball);
+        });
+
+        $numbers.appendChild(row);
+      });
+    }
+
+    function setsToText(sets){
+      return sets.map((set, i) => {
+        const nums = set.map(n => String(n).padStart(2,'0')).join(' ');
+        return `${i+1}) ${nums}`;
+      }).join('\n');
+    }
+
+    function generate(){
+      const nSets = parseInt($count.value, 10);
+      const sets = Array.from({length: nSets}, () => pickOneSet());
+
+      renderSets(sets);
+
+      lastResultText = setsToText(sets);
+      $btnCopy.disabled = false;
+      $btnAgain.disabled = false;
+
+      $last.textContent = `last: ${nowStamp()}`;
+    }
+
+    $btnPick.addEventListener('click', () => {
+      generate();
+      toast("추천 번호 생성 완료!");
+    });
+
+    $btnAgain.addEventListener('click', () => {
+      generate();
+      toast("다시 뽑았어요!");
+    });
+
+    $btnCopy.addEventListener('click', async () => {
+      try{
+        await navigator.clipboard.writeText(lastResultText);
+        toast("클립보드에 복사했어요!");
+      }catch(e){
+        window.prompt("복사해서 사용하세요:", lastResultText);
+      }
+    });
+  </script>
 </body>
 </html>
