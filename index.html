@@ -441,8 +441,10 @@
     #disqus_thread{
       padding: 10px;
       border-radius: 16px;
-      background: rgba(255,255,255,0.92);
+      background: rgba(255,255,255,0.98);
       color: rgba(12,16,24,0.92);
+      border: 1px solid rgba(12,16,24,0.08);
+      color-scheme: light;
     }
 
     body[data-theme="light"] .field input::placeholder,
@@ -451,13 +453,15 @@
     }
 
     body[data-theme="light"] #disqus_thread{
-      background: rgba(255,255,255,0.96);
+      background: rgba(255,255,255,0.92);
       color: rgba(12,16,24,0.92);
+      border-color: rgba(12,16,24,0.12);
     }
 
     body[data-theme="dark"] #disqus_thread{
-      background: rgba(255,255,255,0.96);
+      background: rgba(255,255,255,0.98);
       color: rgba(12,16,24,0.92);
+      border-color: rgba(12,16,24,0.08);
     }
 
     .note{
