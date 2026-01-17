@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>로또 번호 추천기</title>
-  <meta name="description" content="버튼을 누르면 로또 번호(1~45) 6개를 추천해주는 간단한 웹사이트" />
+  <title>Dinner Menu Recommender</title>
+  <meta name="description" content="Get dinner ideas with a single tap. Toggle English or Mandarin for Chinese visitors." />
   <style>
     :root{
       --bg1:#050814;
@@ -147,21 +147,34 @@
       border-color: rgba(12,16,24,0.18);
     }
 
+    body[data-theme="light"] .setLabel{
+      color: rgba(12,16,24,0.76);
+      border-color: rgba(12,16,24,0.18);
+      background: rgba(12,16,24,0.06);
+    }
+
+    body[data-theme="light"] .dish{
+      color: rgba(12,16,24,0.92);
+      border-color: rgba(12,16,24,0.18);
+      background: rgba(255,255,255,0.9);
+      box-shadow: 0 12px 26px rgba(18,22,38,0.14);
+    }
+
     .panel{
       display:grid;
       gap: 14px;
       margin-top: 14px;
     }
 
-    .numbers{
+    .menu{
       padding: 16px;
       border-radius: var(--radius);
       border: 1px solid rgba(255,255,255,0.18);
       background: rgba(255,255,255,0.06);
-      min-height: 86px;
+      min-height: 120px;
       display:flex;
       flex-direction:column;
-      gap: 12px;
+      gap: 14px;
     }
 
     .hint{
@@ -184,35 +197,26 @@
       padding: 6px 10px;
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,0.16);
-      background: rgba(0,0,0,0.18);
+      background: rgba(0,0,0,0.22);
       margin-right: 4px;
     }
 
-    .ball{
-      width: 46px;
-      height: 46px;
-      border-radius: 999px;
+    .dish{
       display:flex;
       align-items:center;
       justify-content:center;
-      font-weight: 900;
-      letter-spacing:-0.2px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: 700;
       border: 1px solid rgba(255,255,255,0.18);
       box-shadow: 0 12px 26px rgba(0,0,0,0.28);
       user-select:none;
       transform: translateY(0);
       transition: transform .12s ease, filter .12s ease;
       color: rgba(255,255,255,0.95);
+      background: rgba(255,255,255,0.12);
     }
-    .ball:hover{ transform: translateY(-1px); filter: brightness(1.05); }
-
-    /* Colorful ball gradients by number range */
-    .c1{ background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.24), rgba(255,90,150,0.70)); }
-    .c2{ background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.24), rgba(255,140,80,0.70)); }
-    .c3{ background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.24), rgba(255,220,90,0.70)); }
-    .c4{ background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.24), rgba(120,255,150,0.62)); }
-    .c5{ background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.24), rgba(90,200,255,0.66)); }
-    .c6{ background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.24), rgba(183,166,255,0.70)); }
+    .dish:hover{ transform: translateY(-1px); filter: brightness(1.05); }
 
     .controls{
       display:flex;
@@ -344,45 +348,50 @@
 
       <header>
         <div>
-          <h1>로또 번호 추천기 🎲</h1>
-          <p class="sub">
-            버튼을 누르면 <b>1~45</b>에서 중복 없이 <b>6개</b>를 뽑아 정렬해 보여줍니다.
+          <h1 id="pageTitle">Dinner Menu Recommender 🍽️</h1>
+          <p class="sub" id="pageSub">
+            Tap the button to get fresh dinner ideas from a curated list.
           </p>
         </div>
 
         <!-- UPDATED BADGE (removed "index.html · offline OK") -->
         <div class="badge-stack">
-          <div class="badge" title="강의 자료 레포">product-builder-lecture</div>
-          <button class="btn theme-btn" id="themeToggle" type="button" aria-label="테마 전환">화이트 모드</button>
+          <div class="badge" id="badgeText" title="Dinner picks">Dinner Lab</div>
+          <button class="btn theme-btn" id="themeToggle" type="button" aria-label="Theme toggle">Light mode</button>
         </div>
       </header>
 
       <div class="panel">
-        <div class="numbers" id="numbers" aria-live="polite" aria-label="추천 번호">
-          <span class="hint">아래 <b>번호 추천</b> 버튼을 눌러 번호를 받아보세요 ✨</span>
+        <div class="menu" id="menu" aria-live="polite" aria-label="Recommended menu">
+          <span class="hint" id="hintText">Press the recommend button to get dinner ideas ✨</span>
         </div>
 
         <div class="controls">
           <div class="left-controls">
-            <button class="btn primary" id="btnPick" type="button">번호 추천</button>
-            <button class="btn" id="btnCopy" type="button" disabled>복사</button>
-            <button class="btn" id="btnAgain" type="button" disabled>다시 뽑기</button>
+            <button class="btn primary" id="btnPick" type="button">Recommend</button>
+            <button class="btn" id="btnCopy" type="button" disabled>Copy</button>
+            <button class="btn" id="btnAgain" type="button" disabled>Try again</button>
           </div>
 
-          <div class="opt" aria-label="옵션">
-            <label for="count">세트 수</label>
-            <select id="count" aria-label="세트 수 선택">
-              <option value="1" selected>1세트</option>
-              <option value="2">2세트</option>
-              <option value="3">3세트</option>
-              <option value="5">5세트</option>
-              <option value="10">10세트</option>
+          <div class="opt" aria-label="Options">
+            <label for="count" id="countLabel">Picks</label>
+            <select id="count" aria-label="Pick count">
+              <option value="1" selected>1 pick</option>
+              <option value="2">2 picks</option>
+              <option value="3">3 picks</option>
+              <option value="5">5 picks</option>
+              <option value="8">8 picks</option>
+            </select>
+            <label for="lang" id="langLabel">Language</label>
+            <select id="lang" aria-label="Language">
+              <option value="en" selected>English</option>
+              <option value="zh">中文</option>
             </select>
           </div>
         </div>
 
         <div class="meta">
-          <div>랜덤 방식: <span class="mono">Fisher–Yates shuffle</span> + 상위 6개</div>
+          <div id="metaText">Randomized from curated menu ideas.</div>
           <div id="last" class="mono">last: -</div>
         </div>
       </div>
@@ -392,16 +401,108 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
-    const $numbers = document.getElementById('numbers');
+    const $menu = document.getElementById('menu');
     const $btnPick = document.getElementById('btnPick');
     const $btnCopy = document.getElementById('btnCopy');
     const $btnAgain = document.getElementById('btnAgain');
     const $count = document.getElementById('count');
+    const $lang = document.getElementById('lang');
     const $last = document.getElementById('last');
     const $toast = document.getElementById('toast');
     const $themeToggle = document.getElementById('themeToggle');
+    const $pageTitle = document.getElementById('pageTitle');
+    const $pageSub = document.getElementById('pageSub');
+    const $countLabel = document.getElementById('countLabel');
+    const $langLabel = document.getElementById('langLabel');
+    const $metaText = document.getElementById('metaText');
+    const $badgeText = document.getElementById('badgeText');
+    const $metaDesc = document.querySelector('meta[name="description"]');
 
     let lastResultText = "";
+    let lastStamp = "-";
+    let hasResults = false;
+    let currentLang = "en";
+    let lastItems = [];
+
+    const i18n = {
+      en: {
+        title: "Dinner Menu Recommender 🍽️",
+        subtitle: "Tap the button to get fresh dinner ideas from a curated list.",
+        hint: "Press the recommend button to get dinner ideas ✨",
+        pick: "Recommend",
+        copy: "Copy",
+        again: "Try again",
+        countLabel: "Picks",
+        langLabel: "Language",
+        meta: "Randomized from curated menu ideas.",
+        badge: "Dinner Lab",
+        lastPrefix: "last:",
+        themeLight: "Light mode",
+        themeDark: "Dark mode",
+        toastPick: "New dinner ideas ready!",
+        toastAgain: "Another round served!",
+        toastCopy: "Copied to clipboard!",
+        promptCopy: "Copy and use:",
+        ariaMenu: "Recommended menu",
+        ariaCount: "Pick count",
+        ariaLang: "Language",
+        description: "Get dinner ideas with a single tap. Toggle English or Mandarin for Chinese visitors.",
+        optionLabel: (n) => `Option ${n}`,
+        countOption: (n) => n === 1 ? "1 pick" : `${n} picks`
+      },
+      zh: {
+        title: "晚餐菜单推荐 🍽️",
+        subtitle: "点击按钮，获取精选晚餐灵感。",
+        hint: "点击下方按钮获取晚餐推荐 ✨",
+        pick: "推荐菜单",
+        copy: "复制",
+        again: "再来一次",
+        countLabel: "数量",
+        langLabel: "语言",
+        meta: "从精选菜单中随机推荐。",
+        badge: "晚餐实验室",
+        lastPrefix: "更新:",
+        themeLight: "白色模式",
+        themeDark: "深色模式",
+        toastPick: "推荐已生成！",
+        toastAgain: "新一轮推荐已送达！",
+        toastCopy: "已复制到剪贴板！",
+        promptCopy: "复制使用：",
+        ariaMenu: "推荐菜单",
+        ariaCount: "推荐数量",
+        ariaLang: "语言",
+        description: "一键获取晚餐灵感，支持英文与中文切换。",
+        optionLabel: (n) => `选项 ${n}`,
+        countOption: (n) => `${n}份`
+      }
+    };
+
+    const menuItems = [
+      { en: "Ginger scallion chicken", zh: "葱姜鸡" },
+      { en: "Sichuan mapo tofu", zh: "麻婆豆腐" },
+      { en: "Beef bibimbap", zh: "牛肉拌饭" },
+      { en: "Mushroom risotto", zh: "蘑菇烩饭" },
+      { en: "Grilled salmon with lemon", zh: "柠檬烤三文鱼" },
+      { en: "Teriyaki chicken bowl", zh: "照烧鸡饭" },
+      { en: "Spicy shrimp tacos", zh: "香辣虾塔可" },
+      { en: "Braised pork belly", zh: "红烧五花肉" },
+      { en: "Veggie curry with rice", zh: "蔬菜咖喱饭" },
+      { en: "Tomato basil pasta", zh: "番茄罗勒意面" },
+      { en: "Korean bulgogi bowl", zh: "韩式烤肉饭" },
+      { en: "Garlic butter steak", zh: "蒜香黄油牛排" },
+      { en: "Seafood udon", zh: "海鲜乌冬" },
+      { en: "Chicken shawarma plate", zh: "鸡肉沙威玛拼盘" },
+      { en: "Crispy tofu salad", zh: "香脆豆腐沙拉" },
+      { en: "Thai green curry", zh: "泰式绿咖喱" },
+      { en: "Kimchi fried rice", zh: "泡菜炒饭" },
+      { en: "Vegetable bibimbap", zh: "素拌饭" },
+      { en: "Lemon herb roast chicken", zh: "香草柠檬烤鸡" },
+      { en: "Hot pot mix", zh: "火锅拼盘" },
+      { en: "Pesto shrimp pasta", zh: "青酱虾意面" },
+      { en: "BBQ pulled pork sandwich", zh: "手撕猪肉三明治" },
+      { en: "Cantonese steamed fish", zh: "粤式清蒸鱼" },
+      { en: "Chicken tikka masala", zh: "印度黄油鸡" }
+    ];
 
     function toast(msg){
       $toast.textContent = msg;
@@ -412,7 +513,7 @@
 
     function applyTheme(theme){
       document.body.setAttribute('data-theme', theme);
-      $themeToggle.textContent = theme === 'dark' ? '화이트 모드' : '다크 모드';
+      $themeToggle.textContent = theme === 'dark' ? i18n[currentLang].themeLight : i18n[currentLang].themeDark;
     }
 
     (function initTheme(){
@@ -445,86 +546,120 @@
       return min + Math.floor(Math.random() * range);
     }
 
-    function pickOneSet(){
-      const arr = Array.from({length:45}, (_,i)=>i+1);
-
-      // Fisher–Yates shuffle
-      for(let i = arr.length - 1; i > 0; i--){
+    function pickItems(count){
+      const pool = menuItems.slice();
+      for(let i = pool.length - 1; i > 0; i--){
         const j = randInt(0, i);
-        [arr[i], arr[j]] = [arr[j], arr[i]];
+        [pool[i], pool[j]] = [pool[j], pool[i]];
       }
-
-      return arr.slice(0,6).sort((a,b)=>a-b);
+      return pool.slice(0, Math.min(count, pool.length));
     }
 
-    function colorClass(n){
-      if (n <= 10) return 'c1';
-      if (n <= 20) return 'c2';
-      if (n <= 30) return 'c3';
-      if (n <= 35) return 'c4';
-      if (n <= 40) return 'c5';
-      return 'c6';
+    function renderHint(){
+      $menu.innerHTML = "";
+      const hint = document.createElement('span');
+      hint.className = "hint";
+      hint.id = "hintText";
+      hint.textContent = i18n[currentLang].hint;
+      $menu.appendChild(hint);
     }
 
-    function renderSets(sets){
-      $numbers.innerHTML = "";
+    function renderMenu(items){
+      $menu.innerHTML = "";
 
-      sets.forEach((set, idx) => {
+      items.forEach((item, idx) => {
         const row = document.createElement('div');
         row.className = "setRow";
 
         const label = document.createElement('div');
         label.className = "setLabel";
-        label.textContent = `${idx+1}세트`;
+        label.textContent = i18n[currentLang].optionLabel(idx + 1);
         row.appendChild(label);
 
-        set.forEach(n => {
-          const ball = document.createElement('div');
-          ball.className = `ball ${colorClass(n)}`;
-          ball.textContent = n;
-          row.appendChild(ball);
-        });
+        const dish = document.createElement('div');
+        dish.className = "dish";
+        dish.textContent = item[currentLang];
+        row.appendChild(dish);
 
-        $numbers.appendChild(row);
+        $menu.appendChild(row);
       });
     }
 
-    function setsToText(sets){
-      return sets.map((set, i) => {
-        const nums = set.map(n => String(n).padStart(2,'0')).join(' ');
-        return `${i+1}) ${nums}`;
-      }).join('\n');
+    function itemsToText(items){
+      return items.map((item, i) => `${i+1}) ${item[currentLang]}`).join('\n');
+    }
+
+    function applyLang(lang){
+      currentLang = lang;
+      localStorage.setItem('lang', lang);
+      document.documentElement.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+
+      $pageTitle.textContent = i18n[lang].title;
+      $pageSub.textContent = i18n[lang].subtitle;
+      $btnPick.textContent = i18n[lang].pick;
+      $btnCopy.textContent = i18n[lang].copy;
+      $btnAgain.textContent = i18n[lang].again;
+      $countLabel.textContent = i18n[lang].countLabel;
+      $langLabel.textContent = i18n[lang].langLabel;
+      $metaText.textContent = i18n[lang].meta;
+      $badgeText.textContent = i18n[lang].badge;
+      $menu.setAttribute('aria-label', i18n[lang].ariaMenu);
+      $count.setAttribute('aria-label', i18n[lang].ariaCount);
+      $lang.setAttribute('aria-label', i18n[lang].ariaLang);
+      $last.textContent = `${i18n[currentLang].lastPrefix} ${lastStamp}`;
+      document.title = i18n[lang].title;
+      if ($metaDesc) {
+        $metaDesc.setAttribute('content', i18n[lang].description);
+      }
+
+      Array.from($count.options).forEach((opt) => {
+        const n = parseInt(opt.value, 10);
+        opt.textContent = i18n[lang].countOption(n);
+      });
+
+      applyTheme(document.body.getAttribute('data-theme') || 'dark');
+
+      if (!hasResults) {
+        renderHint();
+      } else {
+        renderMenu(lastItems);
+        lastResultText = itemsToText(lastItems);
+        $last.textContent = `${i18n[currentLang].lastPrefix} ${lastStamp}`;
+      }
     }
 
     function generate(){
-      const nSets = parseInt($count.value, 10);
-      const sets = Array.from({length: nSets}, () => pickOneSet());
+      const count = parseInt($count.value, 10);
+      const items = pickItems(count);
+      hasResults = true;
+      lastItems = items;
 
-      renderSets(sets);
+      renderMenu(items);
 
-      lastResultText = setsToText(sets);
+      lastResultText = itemsToText(items);
       $btnCopy.disabled = false;
       $btnAgain.disabled = false;
 
-      $last.textContent = `last: ${nowStamp()}`;
+      lastStamp = nowStamp();
+      $last.textContent = `${i18n[currentLang].lastPrefix} ${lastStamp}`;
     }
 
     $btnPick.addEventListener('click', () => {
       generate();
-      toast("추천 번호 생성 완료!");
+      toast(i18n[currentLang].toastPick);
     });
 
     $btnAgain.addEventListener('click', () => {
       generate();
-      toast("다시 뽑았어요!");
+      toast(i18n[currentLang].toastAgain);
     });
 
     $btnCopy.addEventListener('click', async () => {
       try{
         await navigator.clipboard.writeText(lastResultText);
-        toast("클립보드에 복사했어요!");
+        toast(i18n[currentLang].toastCopy);
       }catch(e){
-        window.prompt("복사해서 사용하세요:", lastResultText);
+        window.prompt(i18n[currentLang].promptCopy, lastResultText);
       }
     });
 
@@ -534,6 +669,18 @@
       applyTheme(next);
       localStorage.setItem('theme', next);
     });
+
+    $lang.addEventListener('change', () => {
+      applyLang($lang.value);
+    });
+
+    (function initLang(){
+      const storedLang = localStorage.getItem('lang');
+      const browserLang = navigator.language || '';
+      const initialLang = storedLang || (browserLang.toLowerCase().startsWith('zh') ? 'zh' : 'en');
+      $lang.value = initialLang;
+      applyLang(initialLang);
+    })();
   </script>
 </body>
 </html>
