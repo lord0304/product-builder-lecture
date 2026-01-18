@@ -1433,8 +1433,9 @@
 
     (function initAnimalModel(){
       const storedModel = localStorage.getItem('tm_model_url');
-      if ($modelUrl && storedModel) {
-        $modelUrl.value = storedModel;
+      const fallbackModel = "https://teachablemachine.withgoogle.com/models/A2USJBZAQ/";
+      if ($modelUrl) {
+        $modelUrl.value = storedModel || fallbackModel;
       }
       setAnimalStatus("idle");
     })();
