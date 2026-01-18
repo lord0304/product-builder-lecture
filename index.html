@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Animal Match Studio</title>
-  <meta name="description" content="Playful animal vibe matcher and dinner idea generator. Built with Teachable Machine, designed for quick inspiration." />
+  <title>Your Animal Persona</title>
+  <meta name="description" content="Playful animal persona matcher and dinner idea generator. Built with Teachable Machine, designed for quick inspiration." />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1914553061937911" crossorigin="anonymous"></script>
   <style>
     :root{
@@ -708,7 +708,7 @@
 
       <header>
         <div>
-          <h1 id="pageTitle">Animal Match Studio</h1>
+          <h1 id="pageTitle">Your Animal Persona</h1>
           <p class="sub" id="pageSub">
             Play with animal vibes, then grab a dinner idea for the mood.
           </p>
@@ -716,7 +716,7 @@
 
         <!-- UPDATED BADGE (removed "index.html · offline OK") -->
         <div class="badge-stack">
-          <div class="badge" id="badgeText" title="Animal match studio">Animal Match Studio</div>
+          <div class="badge" id="badgeText" title="Your animal persona">Your Animal Persona</div>
           <button class="btn theme-btn" id="themeToggle" type="button" aria-label="Theme toggle">Light mode</button>
         </div>
       </header>
@@ -1016,10 +1016,14 @@
     let tmMaxPredictions = 0;
     let animalStatusState = "idle";
     let lastAnimalPredictions = [];
+    const classLabelMap = {
+      class1: "cat",
+      class2: "dog"
+    };
 
     const i18n = {
       en: {
-        title: "Animal Match Studio",
+        title: "Your Animal Persona",
         subtitle: "Play with animal vibes, then grab a dinner idea for the mood.",
         hint: "Tap the recommend button to get dinner ideas ✨",
         pick: "Recommend",
@@ -1028,7 +1032,7 @@
         countLabel: "Picks",
         langLabel: "Language",
         meta: "Randomized from curated dinner ideas.",
-        badge: "Animal Match Studio",
+        badge: "Your Animal Persona",
         lastPrefix: "last:",
         themeLight: "Light mode",
         themeDark: "Dark mode",
@@ -1039,7 +1043,7 @@
         ariaMenu: "Recommended menu",
         ariaCount: "Pick count",
         ariaLang: "Language",
-        description: "Playful animal vibe matcher and dinner idea generator. Built with Teachable Machine, designed for quick inspiration.",
+        description: "Playful animal persona matcher and dinner idea generator. Built with Teachable Machine, designed for quick inspiration.",
         navAnimal: "Animal Match",
         navMenu: "Dinner Ideas",
         navHow: "How it works",
@@ -1047,7 +1051,7 @@
         navFaq: "FAQ",
         navContact: "Contact",
         aboutTitle: "About this project",
-        aboutBody: "Animal Match Studio is a playful demo that pairs a portrait photo with a fun animal vibe and suggests a cozy dinner to match the mood.",
+        aboutBody: "Your Animal Persona is a playful demo that pairs a portrait photo with a fun animal vibe and suggests a cozy dinner to match the mood.",
         menuTitle: "Dinner ideas",
         menuIntro: "Pick one or more dishes from a curated list for quick inspiration.",
         howTitle: "How it works",
@@ -1093,7 +1097,7 @@
         partnerStatusSending: "Sending...",
         partnerStatusSuccess: "Thanks for reaching out! We will get back to you soon.",
         partnerStatusError: "Something went wrong. Please try again or email us directly.",
-        animalTitle: "Animal Match (Teachable Machine)",
+        animalTitle: "Animal Persona (Teachable Machine)",
         animalIntro: "Upload a portrait photo to see which animal vibe you match most.",
         animalModelLabel: "Model URL",
         animalModelPlaceholder: "https://teachablemachine.withgoogle.com/models/XXXX/",
@@ -1114,7 +1118,7 @@
         countOption: (n) => n === 1 ? "1 pick" : `${n} picks`
       },
       zh: {
-        title: "动物匹配工作室",
+        title: "你的动物气质",
         subtitle: "玩一玩动物气质匹配，再来一份晚餐灵感。",
         hint: "点击推荐按钮获取晚餐灵感 ✨",
         pick: "推荐菜单",
@@ -1123,7 +1127,7 @@
         countLabel: "数量",
         langLabel: "语言",
         meta: "从精选晚餐中随机推荐。",
-        badge: "动物匹配工作室",
+        badge: "你的动物气质",
         lastPrefix: "更新:",
         themeLight: "白色模式",
         themeDark: "深色模式",
@@ -1142,7 +1146,7 @@
         navFaq: "常见问题",
         navContact: "联系我们",
         aboutTitle: "关于本项目",
-        aboutBody: "动物匹配工作室是一个趣味示例，为人物照片匹配动物气质，并搭配一份晚餐灵感。",
+        aboutBody: "你的动物气质是一个趣味示例，为人物照片匹配动物气质，并搭配一份晚餐灵感。",
         menuTitle: "晚餐灵感",
         menuIntro: "从精选列表中快速挑选一份或多份菜品。",
         howTitle: "使用方式",
@@ -1188,7 +1192,7 @@
         partnerStatusSending: "发送中...",
         partnerStatusSuccess: "感谢联系！我们会尽快回复。",
         partnerStatusError: "提交失败，请重试或通过邮件联系。",
-        animalTitle: "动物性格测试（Teachable Machine）",
+        animalTitle: "动物气质测试（Teachable Machine）",
         animalIntro: "上传一张人物照片，看看最像哪种动物。",
         animalModelLabel: "模型链接",
         animalModelPlaceholder: "https://teachablemachine.withgoogle.com/models/XXXX/",
@@ -1607,7 +1611,7 @@
         row.className = "animal-result";
 
         const label = document.createElement('div');
-        label.textContent = pred.className;
+        label.textContent = classLabelMap[pred.className] || pred.className;
         row.appendChild(label);
 
         const bar = document.createElement('div');
