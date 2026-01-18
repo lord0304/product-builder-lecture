@@ -738,6 +738,37 @@
           </p>
         </section>
 
+        <section class="animal" id="animalSection" aria-label="Animal match test">
+          <div class="animal-header">
+            <div>
+              <h2 id="animalTitle">Animal Match (Teachable Machine)</h2>
+              <p id="animalIntro">Upload a portrait photo to see which animal vibe you match most.</p>
+          </div>
+          <div class="animal-status" id="animalStatus">Model not loaded</div>
+        </div>
+
+        <div class="animal-controls">
+          <div class="field">
+            <label for="modelUrl" id="modelUrlLabel">Model URL</label>
+            <input id="modelUrl" type="url" placeholder="https://teachablemachine.withgoogle.com/models/XXXX/" />
+          </div>
+          <div class="animal-buttons">
+            <button class="btn" id="modelLoad" type="button">Load model</button>
+            <label class="btn primary" for="animalImage" id="animalPick">Choose photo</label>
+            <input id="animalImage" type="file" accept="image/*" />
+          </div>
+        </div>
+
+        <div class="animal-preview">
+          <img id="animalPreview" alt="Photo preview for animal match" />
+          <div class="animal-results" id="animalResults"></div>
+        </div>
+
+        <p class="note" id="animalNote">Tip: export an Image model from Teachable Machine and paste its model URL.</p>
+      </section>
+
+        <hr class="divider" aria-hidden="true" />
+
         <section class="feature" id="menuSection" aria-label="Dinner ideas">
           <div>
             <h2 id="menuTitle">Dinner ideas</h2>
@@ -777,37 +808,6 @@
             <div id="last" class="mono">last: -</div>
           </div>
         </section>
-
-        <hr class="divider" aria-hidden="true" />
-
-        <section class="animal" id="animalSection" aria-label="Animal match test">
-          <div class="animal-header">
-            <div>
-              <h2 id="animalTitle">Animal Match (Teachable Machine)</h2>
-              <p id="animalIntro">Upload a portrait photo to see which animal vibe you match most.</p>
-          </div>
-          <div class="animal-status" id="animalStatus">Model not loaded</div>
-        </div>
-
-        <div class="animal-controls">
-          <div class="field">
-            <label for="modelUrl" id="modelUrlLabel">Model URL</label>
-            <input id="modelUrl" type="url" placeholder="https://teachablemachine.withgoogle.com/models/XXXX/" />
-          </div>
-          <div class="animal-buttons">
-            <button class="btn" id="modelLoad" type="button">Load model</button>
-            <label class="btn primary" for="animalImage" id="animalPick">Choose photo</label>
-            <input id="animalImage" type="file" accept="image/*" />
-          </div>
-        </div>
-
-        <div class="animal-preview">
-          <img id="animalPreview" alt="Photo preview for animal match" />
-          <div class="animal-results" id="animalResults"></div>
-        </div>
-
-        <p class="note" id="animalNote">Tip: export an Image model from Teachable Machine and paste its model URL.</p>
-      </section>
 
         <hr class="divider" aria-hidden="true" />
 
