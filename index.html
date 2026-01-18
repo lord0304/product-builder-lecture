@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Dinner Menu Recommender</title>
-  <meta name="description" content="Get dinner ideas with a single tap. Toggle English or Mandarin for Chinese visitors." />
+  <title>Animal Match Studio</title>
+  <meta name="description" content="Playful animal vibe matcher and dinner idea generator. Built with Teachable Machine, designed for quick inspiration." />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1914553061937911" crossorigin="anonymous"></script>
   <style>
     :root{
       --bg1:#050814;
@@ -164,6 +165,109 @@
       display:grid;
       gap: 14px;
       margin-top: 14px;
+    }
+
+    .site-nav{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      margin: 6px 0 8px;
+    }
+
+    .site-nav a{
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .site-nav a:hover{
+      background: rgba(255,255,255,0.12);
+    }
+
+    .about,
+    .feature,
+    .info,
+    .policy,
+    .faq{
+      padding: 16px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.06);
+      display:grid;
+      gap: 12px;
+    }
+
+    .about h2,
+    .feature h2,
+    .info h2,
+    .policy h2,
+    .faq h2{
+      margin: 0;
+      font-size: 18px;
+      letter-spacing:-0.2px;
+    }
+
+    .about p,
+    .feature p,
+    .info p,
+    .policy p,
+    .faq p{
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .info-grid{
+      display:grid;
+      gap: 12px;
+    }
+
+    .info-card{
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(0,0,0,0.22);
+      display:grid;
+      gap: 8px;
+    }
+
+    .info-card h3{
+      margin: 0;
+      font-size: 14px;
+      letter-spacing:-0.2px;
+    }
+
+    .info-card p{
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .policy-list,
+    .faq-list{
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    body[data-theme="light"] .site-nav a{
+      color: rgba(12,16,24,0.9);
+      border-color: rgba(12,16,24,0.16);
+      background: rgba(12,16,24,0.06);
+    }
+
+    body[data-theme="light"] .info-card{
+      border-color: rgba(12,16,24,0.14);
+      background: rgba(255,255,255,0.9);
     }
 
     .menu{
@@ -544,46 +648,9 @@
       background: rgba(255,120,120,0.12);
     }
 
-    .comments{
-      margin-top: 14px;
-      padding: 16px;
-      border-radius: var(--radius);
-      border: 1px solid rgba(255,255,255,0.16);
-      background: rgba(255,255,255,0.06);
-      display:grid;
-      gap: 12px;
-    }
-
-    .comments h2{
-      margin: 0;
-      font-size: 18px;
-      letter-spacing:-0.2px;
-    }
-
-    #disqus_thread{
-      padding: 10px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.98);
-      color: rgba(12,16,24,0.92);
-      border: 1px solid rgba(12,16,24,0.08);
-      color-scheme: light;
-    }
-
     body[data-theme="light"] .field input::placeholder,
     body[data-theme="light"] .field textarea::placeholder{
       color: rgba(12,16,24,0.45);
-    }
-
-    body[data-theme="light"] #disqus_thread{
-      background: rgba(255,255,255,0.92);
-      color: rgba(12,16,24,0.92);
-      border-color: rgba(12,16,24,0.12);
-    }
-
-    body[data-theme="dark"] #disqus_thread{
-      background: rgba(255,255,255,0.98);
-      color: rgba(12,16,24,0.92);
-      border-color: rgba(12,16,24,0.08);
     }
 
     .note{
@@ -601,6 +668,9 @@
     @media (min-width: 720px){
       .partner-grid{
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .info-grid{
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
     }
 
@@ -638,57 +708,80 @@
 
       <header>
         <div>
-          <h1 id="pageTitle">Dinner Menu Recommender 🍽️</h1>
+          <h1 id="pageTitle">Animal Match Studio</h1>
           <p class="sub" id="pageSub">
-            Tap the button to get fresh dinner ideas from a curated list.
+            Play with animal vibes, then grab a dinner idea for the mood.
           </p>
         </div>
 
         <!-- UPDATED BADGE (removed "index.html · offline OK") -->
         <div class="badge-stack">
-          <div class="badge" id="badgeText" title="Dinner picks">Dinner Lab</div>
+          <div class="badge" id="badgeText" title="Animal match studio">Animal Match Studio</div>
           <button class="btn theme-btn" id="themeToggle" type="button" aria-label="Theme toggle">Light mode</button>
         </div>
       </header>
 
       <div class="panel">
-        <div class="menu" id="menu" aria-live="polite" aria-label="Recommended menu">
-          <span class="hint" id="hintText">Press the recommend button to get dinner ideas ✨</span>
-        </div>
+        <nav class="site-nav" aria-label="Site navigation">
+          <a href="#animalSection" id="navAnimal">Animal Match</a>
+          <a href="#menuSection" id="navMenu">Dinner Ideas</a>
+          <a href="#howSection" id="navHow">How it works</a>
+          <a href="#privacySection" id="navPrivacy">Privacy</a>
+          <a href="#faqSection" id="navFaq">FAQ</a>
+          <a href="#contactSection" id="navContact">Contact</a>
+        </nav>
 
-        <div class="controls">
-          <div class="left-controls">
-            <button class="btn primary" id="btnPick" type="button">Recommend</button>
-            <button class="btn" id="btnCopy" type="button" disabled>Copy</button>
-            <button class="btn" id="btnAgain" type="button" disabled>Try again</button>
+        <section class="about" id="aboutSection" aria-label="About">
+          <h2 id="aboutTitle">About this project</h2>
+          <p id="aboutBody">
+            Animal Match Studio is a playful demo that pairs a portrait photo with a fun animal vibe and suggests a cozy dinner to match the mood.
+          </p>
+        </section>
+
+        <section class="feature" id="menuSection" aria-label="Dinner ideas">
+          <div>
+            <h2 id="menuTitle">Dinner ideas</h2>
+            <p id="menuIntro">Pick one or more dishes from a curated list for quick inspiration.</p>
           </div>
 
-          <div class="opt" aria-label="Options">
-            <label for="count" id="countLabel">Picks</label>
-            <select id="count" aria-label="Pick count">
-              <option value="1" selected>1 pick</option>
-              <option value="2">2 picks</option>
-              <option value="3">3 picks</option>
-              <option value="5">5 picks</option>
-              <option value="8">8 picks</option>
-            </select>
-            <label for="lang" id="langLabel">Language</label>
-            <select id="lang" aria-label="Language">
-              <option value="en" selected>English</option>
-              <option value="zh">中文</option>
-            </select>
+          <div class="menu" id="menu" aria-live="polite" aria-label="Recommended menu">
+            <span class="hint" id="hintText">Press the recommend button to get dinner ideas ✨</span>
           </div>
-        </div>
 
-      <div class="meta">
-        <div id="metaText">Randomized from curated menu ideas.</div>
-        <div id="last" class="mono">last: -</div>
-      </div>
+          <div class="controls">
+            <div class="left-controls">
+              <button class="btn primary" id="btnPick" type="button">Recommend</button>
+              <button class="btn" id="btnCopy" type="button" disabled>Copy</button>
+              <button class="btn" id="btnAgain" type="button" disabled>Try again</button>
+            </div>
 
-      <hr class="divider" aria-hidden="true" />
+            <div class="opt" aria-label="Options">
+              <label for="count" id="countLabel">Picks</label>
+              <select id="count" aria-label="Pick count">
+                <option value="1" selected>1 pick</option>
+                <option value="2">2 picks</option>
+                <option value="3">3 picks</option>
+                <option value="5">5 picks</option>
+                <option value="8">8 picks</option>
+              </select>
+              <label for="lang" id="langLabel">Language</label>
+              <select id="lang" aria-label="Language">
+                <option value="en" selected>English</option>
+                <option value="zh">中文</option>
+              </select>
+            </div>
+          </div>
 
-      <section class="animal" id="animalSection" aria-label="Animal match test">
-        <div class="animal-header">
+          <div class="meta">
+            <div id="metaText">Randomized from curated menu ideas.</div>
+            <div id="last" class="mono">last: -</div>
+          </div>
+        </section>
+
+        <hr class="divider" aria-hidden="true" />
+
+        <section class="animal" id="animalSection" aria-label="Animal match test">
+          <div class="animal-header">
           <div>
             <h2 id="animalTitle">Animal Match (Teachable Machine)</h2>
             <p id="animalIntro">Upload a portrait photo to see which animal vibe you match most.</p>
@@ -716,17 +809,54 @@
         <p class="note" id="animalNote">Tip: export an Image model from Teachable Machine and paste its model URL.</p>
       </section>
 
-      <hr class="divider" aria-hidden="true" />
+        <hr class="divider" aria-hidden="true" />
 
-      <section class="partner" id="partnerSection" aria-label="Partnership enquiry form">
-        <div>
-          <h2 id="partnerTitle">Partnership enquiry</h2>
-          <p id="partnerIntro">Tell us about your brand, audience, and collaboration idea. We will reply within 3 business days.</p>
+        <section class="info" id="howSection" aria-label="How it works">
+          <h2 id="howTitle">How it works</h2>
+          <div class="info-grid">
+            <div class="info-card">
+              <h3 id="howStep1Title">Load the model</h3>
+              <p id="howStep1Body">Paste a Teachable Machine image model URL and we fetch the model in your browser.</p>
+            </div>
+            <div class="info-card">
+              <h3 id="howStep2Title">Upload a portrait</h3>
+              <p id="howStep2Body">Choose a clear photo for the best match results.</p>
+            </div>
+            <div class="info-card">
+              <h3 id="howStep3Title">See the vibe</h3>
+              <p id="howStep3Body">We show the top predictions so you can compare your animal matches.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="policy" id="privacySection" aria-label="Privacy and data">
+          <h2 id="privacyTitle">Privacy & data</h2>
+          <p id="privacyBody">We built this as a lightweight demo with privacy in mind.</p>
+          <ul class="policy-list">
+            <li id="privacyItem1">Images stay in your browser and are not uploaded to our server.</li>
+            <li id="privacyItem2">We store only your chosen model URL and language preference in local storage.</li>
+            <li id="privacyItem3">Clear your browser storage at any time to reset the experience.</li>
+          </ul>
+        </section>
+
+        <section class="faq" id="faqSection" aria-label="Frequently asked questions">
+          <h2 id="faqTitle">FAQ</h2>
+          <ul class="faq-list">
+            <li id="faqItem1">Is this scientific? No — it is just a fun demo using a custom-trained model.</li>
+            <li id="faqItem2">Why do I need a model URL? The model is hosted by Teachable Machine, so we load it from there.</li>
+            <li id="faqItem3">Does the app support mobile? Yes, it works on modern mobile browsers.</li>
+          </ul>
+        </section>
+
+        <section class="partner" id="contactSection" aria-label="Contact form">
+          <div>
+            <h2 id="partnerTitle">Contact</h2>
+            <p id="partnerIntro">Send a message about collaborations, feedback, or feature requests.</p>
           </div>
 
           <form class="partner-form" id="partnerForm" action="https://formspree.io/f/xqeeenqr" method="POST">
             <input class="honeypot" type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
-            <input type="hidden" name="_subject" id="partnerSubject" value="New partnership enquiry" />
+            <input type="hidden" name="_subject" id="partnerSubject" value="New contact message" />
 
             <div class="partner-grid">
               <div class="field">
@@ -746,58 +876,32 @@
                 <input id="partnerWebsite" name="website" type="url" placeholder="https://studio.com" />
               </div>
               <div class="field">
-                <label for="partnerType" id="partnerTypeLabel">Partnership type</label>
+                <label for="partnerType" id="partnerTypeLabel">Topic</label>
                 <select id="partnerType" name="partnership_type">
-                  <option value="brand" id="partnerTypeBrand">Brand collaboration</option>
-                  <option value="sponsorship" id="partnerTypeSponsor">Sponsorship</option>
-                  <option value="affiliate" id="partnerTypeAffiliate">Affiliate or referral</option>
-                  <option value="content" id="partnerTypeContent">Content or media</option>
+                  <option value="feedback" id="partnerTypeBrand">Feedback</option>
+                  <option value="collab" id="partnerTypeSponsor">Collaboration</option>
+                  <option value="support" id="partnerTypeAffiliate">Support</option>
+                  <option value="press" id="partnerTypeContent">Press</option>
                   <option value="other" id="partnerTypeOther">Other</option>
                 </select>
               </div>
               <div class="field">
-                <label for="partnerTimeline" id="partnerTimelineLabel">Timeline</label>
-                <input id="partnerTimeline" name="timeline" type="text" placeholder="Q2 launch, 6-week campaign" />
+                <label for="partnerTimeline" id="partnerTimelineLabel">When should we reply?</label>
+                <input id="partnerTimeline" name="timeline" type="text" placeholder="This week, next month, not urgent" />
               </div>
             </div>
 
             <div class="field">
-              <label for="partnerMessage" id="partnerMessageLabel">Project details</label>
-              <textarea id="partnerMessage" name="message" placeholder="Share goals, audience size, and any success metrics." required></textarea>
+              <label for="partnerMessage" id="partnerMessageLabel">Message</label>
+              <textarea id="partnerMessage" name="message" placeholder="Tell us what you need help with." required></textarea>
             </div>
 
             <div class="partner-actions">
-              <button class="btn primary" id="partnerSubmit" type="submit">Send enquiry</button>
+              <button class="btn primary" id="partnerSubmit" type="submit">Send message</button>
               <span class="note" id="partnerNote">By submitting, you agree we can reply to your email.</span>
             </div>
             <div class="partner-status" id="partnerStatus" role="status" aria-live="polite"></div>
           </form>
-        </section>
-
-        <hr class="divider" aria-hidden="true" />
-
-        <section class="comments" aria-label="Comments">
-          <h2>Comments</h2>
-          <div id="disqus_thread"></div>
-          <script>
-            /**
-            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
-            */
-            /*
-            var disqus_config = function () {
-            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-            };
-            */
-            (function() { // DON'T EDIT BELOW THIS LINE
-            var d = document, s = d.createElement('script');
-            s.src = 'https://alice-productbuilder-1.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-            })();
-          </script>
-          <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
         </section>
       </div>
     </div>
@@ -807,7 +911,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1914553061937911" crossorigin="anonymous"></script>
   <script>
     const $menu = document.getElementById('menu');
     const $btnPick = document.getElementById('btnPick');
@@ -825,9 +928,35 @@
     const $metaText = document.getElementById('metaText');
     const $badgeText = document.getElementById('badgeText');
     const $metaDesc = document.querySelector('meta[name="description"]');
+    const $navAnimal = document.getElementById('navAnimal');
+    const $navMenu = document.getElementById('navMenu');
+    const $navHow = document.getElementById('navHow');
+    const $navPrivacy = document.getElementById('navPrivacy');
+    const $navFaq = document.getElementById('navFaq');
+    const $navContact = document.getElementById('navContact');
+    const $aboutTitle = document.getElementById('aboutTitle');
+    const $aboutBody = document.getElementById('aboutBody');
+    const $menuTitle = document.getElementById('menuTitle');
+    const $menuIntro = document.getElementById('menuIntro');
+    const $howTitle = document.getElementById('howTitle');
+    const $howStep1Title = document.getElementById('howStep1Title');
+    const $howStep1Body = document.getElementById('howStep1Body');
+    const $howStep2Title = document.getElementById('howStep2Title');
+    const $howStep2Body = document.getElementById('howStep2Body');
+    const $howStep3Title = document.getElementById('howStep3Title');
+    const $howStep3Body = document.getElementById('howStep3Body');
+    const $privacyTitle = document.getElementById('privacyTitle');
+    const $privacyBody = document.getElementById('privacyBody');
+    const $privacyItem1 = document.getElementById('privacyItem1');
+    const $privacyItem2 = document.getElementById('privacyItem2');
+    const $privacyItem3 = document.getElementById('privacyItem3');
+    const $faqTitle = document.getElementById('faqTitle');
+    const $faqItem1 = document.getElementById('faqItem1');
+    const $faqItem2 = document.getElementById('faqItem2');
+    const $faqItem3 = document.getElementById('faqItem3');
     const $partnerTitle = document.getElementById('partnerTitle');
     const $partnerIntro = document.getElementById('partnerIntro');
-    const $partnerSection = document.getElementById('partnerSection');
+    const $partnerSection = document.getElementById('contactSection');
     const $partnerNameLabel = document.getElementById('partnerNameLabel');
     const $partnerEmailLabel = document.getElementById('partnerEmailLabel');
     const $partnerCompanyLabel = document.getElementById('partnerCompanyLabel');
@@ -875,16 +1004,16 @@
 
     const i18n = {
       en: {
-        title: "Dinner Menu Recommender 🍽️",
-        subtitle: "Tap the button to get fresh dinner ideas from a curated list.",
-        hint: "Press the recommend button to get dinner ideas ✨",
+        title: "Animal Match Studio",
+        subtitle: "Play with animal vibes, then grab a dinner idea for the mood.",
+        hint: "Tap the recommend button to get dinner ideas ✨",
         pick: "Recommend",
         copy: "Copy",
         again: "Try again",
         countLabel: "Picks",
         langLabel: "Language",
-        meta: "Randomized from curated menu ideas.",
-        badge: "Dinner Lab",
+        meta: "Randomized from curated dinner ideas.",
+        badge: "Animal Match Studio",
         lastPrefix: "last:",
         themeLight: "Light mode",
         themeDark: "Dark mode",
@@ -895,31 +1024,57 @@
         ariaMenu: "Recommended menu",
         ariaCount: "Pick count",
         ariaLang: "Language",
-        description: "Get dinner ideas with a single tap. Toggle English or Mandarin for Chinese visitors.",
-        partnerTitle: "Partnership enquiry",
-        partnerIntro: "Tell us about your brand, audience, and collaboration idea. We will reply within 3 business days.",
-        partnerAria: "Partnership enquiry form",
+        description: "Playful animal vibe matcher and dinner idea generator. Built with Teachable Machine, designed for quick inspiration.",
+        navAnimal: "Animal Match",
+        navMenu: "Dinner Ideas",
+        navHow: "How it works",
+        navPrivacy: "Privacy",
+        navFaq: "FAQ",
+        navContact: "Contact",
+        aboutTitle: "About this project",
+        aboutBody: "Animal Match Studio is a playful demo that pairs a portrait photo with a fun animal vibe and suggests a cozy dinner to match the mood.",
+        menuTitle: "Dinner ideas",
+        menuIntro: "Pick one or more dishes from a curated list for quick inspiration.",
+        howTitle: "How it works",
+        howStep1Title: "Load the model",
+        howStep1Body: "Paste a Teachable Machine image model URL and we fetch the model in your browser.",
+        howStep2Title: "Upload a portrait",
+        howStep2Body: "Choose a clear photo for the best match results.",
+        howStep3Title: "See the vibe",
+        howStep3Body: "We show the top predictions so you can compare your animal matches.",
+        privacyTitle: "Privacy & data",
+        privacyBody: "We built this as a lightweight demo with privacy in mind.",
+        privacyItem1: "Images stay in your browser and are not uploaded to our server.",
+        privacyItem2: "We store only your chosen model URL and language preference in local storage.",
+        privacyItem3: "Clear your browser storage at any time to reset the experience.",
+        faqTitle: "FAQ",
+        faqItem1: "Is this scientific? No — it is just a fun demo using a custom-trained model.",
+        faqItem2: "Why do I need a model URL? The model is hosted by Teachable Machine, so we load it from there.",
+        faqItem3: "Does the app support mobile? Yes, it works on modern mobile browsers.",
+        partnerTitle: "Contact",
+        partnerIntro: "Send a message about collaborations, feedback, or feature requests.",
+        partnerAria: "Contact form",
         partnerName: "Name",
         partnerEmail: "Email",
         partnerCompany: "Company",
         partnerWebsite: "Website",
-        partnerType: "Partnership type",
-        partnerTimeline: "Timeline",
-        partnerMessage: "Project details",
-        partnerTypeBrand: "Brand collaboration",
-        partnerTypeSponsor: "Sponsorship",
-        partnerTypeAffiliate: "Affiliate or referral",
-        partnerTypeContent: "Content or media",
+        partnerType: "Topic",
+        partnerTimeline: "When should we reply?",
+        partnerMessage: "Message",
+        partnerTypeBrand: "Feedback",
+        partnerTypeSponsor: "Collaboration",
+        partnerTypeAffiliate: "Support",
+        partnerTypeContent: "Press",
         partnerTypeOther: "Other",
-        partnerSubmit: "Send enquiry",
+        partnerSubmit: "Send message",
         partnerNote: "By submitting, you agree we can reply to your email.",
-        partnerSubject: "New partnership enquiry",
+        partnerSubject: "New contact message",
         partnerPlaceholderName: "Jane Park",
         partnerPlaceholderEmail: "jane@studio.com",
         partnerPlaceholderCompany: "Studio Name",
         partnerPlaceholderWebsite: "https://studio.com",
-        partnerPlaceholderTimeline: "Q2 launch, 6-week campaign",
-        partnerPlaceholderMessage: "Share goals, audience size, and any success metrics.",
+        partnerPlaceholderTimeline: "This week, next month, not urgent",
+        partnerPlaceholderMessage: "Tell us what you need help with.",
         partnerStatusSending: "Sending...",
         partnerStatusSuccess: "Thanks for reaching out! We will get back to you soon.",
         partnerStatusError: "Something went wrong. Please try again or email us directly.",
@@ -944,16 +1099,16 @@
         countOption: (n) => n === 1 ? "1 pick" : `${n} picks`
       },
       zh: {
-        title: "晚餐菜单推荐 🍽️",
-        subtitle: "点击按钮，获取精选晚餐灵感。",
-        hint: "点击下方按钮获取晚餐推荐 ✨",
+        title: "动物匹配工作室",
+        subtitle: "玩一玩动物气质匹配，再来一份晚餐灵感。",
+        hint: "点击推荐按钮获取晚餐灵感 ✨",
         pick: "推荐菜单",
         copy: "复制",
         again: "再来一次",
         countLabel: "数量",
         langLabel: "语言",
-        meta: "从精选菜单中随机推荐。",
-        badge: "晚餐实验室",
+        meta: "从精选晚餐中随机推荐。",
+        badge: "动物匹配工作室",
         lastPrefix: "更新:",
         themeLight: "白色模式",
         themeDark: "深色模式",
@@ -964,31 +1119,57 @@
         ariaMenu: "推荐菜单",
         ariaCount: "推荐数量",
         ariaLang: "语言",
-        description: "一键获取晚餐灵感，支持英文与中文切换。",
-        partnerTitle: "合作咨询",
-        partnerIntro: "介绍你的品牌、受众与合作想法，我们将在 3 个工作日内回复。",
-        partnerAria: "合作咨询表单",
+        description: "基于 Teachable Machine 的趣味动物气质匹配与晚餐灵感生成器。",
+        navAnimal: "动物匹配",
+        navMenu: "晚餐灵感",
+        navHow: "使用方式",
+        navPrivacy: "隐私",
+        navFaq: "常见问题",
+        navContact: "联系我们",
+        aboutTitle: "关于本项目",
+        aboutBody: "动物匹配工作室是一个趣味示例，为人物照片匹配动物气质，并搭配一份晚餐灵感。",
+        menuTitle: "晚餐灵感",
+        menuIntro: "从精选列表中快速挑选一份或多份菜品。",
+        howTitle: "使用方式",
+        howStep1Title: "加载模型",
+        howStep1Body: "粘贴 Teachable Machine 图像模型链接，在浏览器内加载。",
+        howStep2Title: "上传照片",
+        howStep2Body: "选择清晰的正面照片，效果更好。",
+        howStep3Title: "查看结果",
+        howStep3Body: "展示最高的预测结果，方便对比。",
+        privacyTitle: "隐私与数据",
+        privacyBody: "我们尽量保持轻量与隐私友好。",
+        privacyItem1: "图片仅在浏览器内处理，不会上传到服务器。",
+        privacyItem2: "仅在本地存储模型链接和语言偏好。",
+        privacyItem3: "随时清除浏览器存储即可重置。",
+        faqTitle: "常见问题",
+        faqItem1: "这是否科学？不是，只是一个趣味模型演示。",
+        faqItem2: "为什么需要模型链接？模型托管在 Teachable Machine，我们从那里加载。",
+        faqItem3: "支持手机吗？支持主流移动浏览器。",
+        partnerTitle: "联系我们",
+        partnerIntro: "欢迎反馈、合作或功能建议。",
+        partnerAria: "联系表单",
         partnerName: "姓名",
         partnerEmail: "邮箱",
         partnerCompany: "公司",
         partnerWebsite: "网站",
-        partnerType: "合作类型",
-        partnerTimeline: "时间安排",
-        partnerMessage: "项目说明",
-        partnerTypeBrand: "品牌合作",
-        partnerTypeSponsor: "赞助",
-        partnerTypeAffiliate: "联盟或推荐",
-        partnerTypeContent: "内容或媒体",
+        partnerType: "主题",
+        partnerTimeline: "希望何时回复",
+        partnerMessage: "留言",
+        partnerTypeBrand: "反馈",
+        partnerTypeSponsor: "合作",
+        partnerTypeAffiliate: "支持",
+        partnerTypeContent: "媒体/新闻",
         partnerTypeOther: "其他",
-        partnerSubmit: "提交咨询",
+        partnerSubmit: "发送消息",
         partnerNote: "提交即表示你同意我们通过邮件回复。",
-        partnerSubject: "新的合作咨询",
+        partnerSubject: "新的联系留言",
         partnerPlaceholderName: "王晓妍",
         partnerPlaceholderEmail: "xiaoyan@studio.cn",
         partnerPlaceholderCompany: "品牌名称",
         partnerPlaceholderWebsite: "https://studio.cn",
-        partnerPlaceholderTimeline: "第二季度上线，6 周活动",
-        partnerPlaceholderMessage: "请分享目标、受众规模与衡量指标。",
+        partnerPlaceholderTimeline: "本周、下月、不着急",
+        partnerPlaceholderMessage: "请告诉我们你的需求或建议。",
         partnerStatusSending: "发送中...",
         partnerStatusSuccess: "感谢联系！我们会尽快回复。",
         partnerStatusError: "提交失败，请重试或通过邮件联系。",
@@ -1147,6 +1328,84 @@
       document.title = i18n[lang].title;
       if ($metaDesc) {
         $metaDesc.setAttribute('content', i18n[lang].description);
+      }
+      if ($navAnimal) {
+        $navAnimal.textContent = i18n[lang].navAnimal;
+      }
+      if ($navMenu) {
+        $navMenu.textContent = i18n[lang].navMenu;
+      }
+      if ($navHow) {
+        $navHow.textContent = i18n[lang].navHow;
+      }
+      if ($navPrivacy) {
+        $navPrivacy.textContent = i18n[lang].navPrivacy;
+      }
+      if ($navFaq) {
+        $navFaq.textContent = i18n[lang].navFaq;
+      }
+      if ($navContact) {
+        $navContact.textContent = i18n[lang].navContact;
+      }
+      if ($aboutTitle) {
+        $aboutTitle.textContent = i18n[lang].aboutTitle;
+      }
+      if ($aboutBody) {
+        $aboutBody.textContent = i18n[lang].aboutBody;
+      }
+      if ($menuTitle) {
+        $menuTitle.textContent = i18n[lang].menuTitle;
+      }
+      if ($menuIntro) {
+        $menuIntro.textContent = i18n[lang].menuIntro;
+      }
+      if ($howTitle) {
+        $howTitle.textContent = i18n[lang].howTitle;
+      }
+      if ($howStep1Title) {
+        $howStep1Title.textContent = i18n[lang].howStep1Title;
+      }
+      if ($howStep1Body) {
+        $howStep1Body.textContent = i18n[lang].howStep1Body;
+      }
+      if ($howStep2Title) {
+        $howStep2Title.textContent = i18n[lang].howStep2Title;
+      }
+      if ($howStep2Body) {
+        $howStep2Body.textContent = i18n[lang].howStep2Body;
+      }
+      if ($howStep3Title) {
+        $howStep3Title.textContent = i18n[lang].howStep3Title;
+      }
+      if ($howStep3Body) {
+        $howStep3Body.textContent = i18n[lang].howStep3Body;
+      }
+      if ($privacyTitle) {
+        $privacyTitle.textContent = i18n[lang].privacyTitle;
+      }
+      if ($privacyBody) {
+        $privacyBody.textContent = i18n[lang].privacyBody;
+      }
+      if ($privacyItem1) {
+        $privacyItem1.textContent = i18n[lang].privacyItem1;
+      }
+      if ($privacyItem2) {
+        $privacyItem2.textContent = i18n[lang].privacyItem2;
+      }
+      if ($privacyItem3) {
+        $privacyItem3.textContent = i18n[lang].privacyItem3;
+      }
+      if ($faqTitle) {
+        $faqTitle.textContent = i18n[lang].faqTitle;
+      }
+      if ($faqItem1) {
+        $faqItem1.textContent = i18n[lang].faqItem1;
+      }
+      if ($faqItem2) {
+        $faqItem2.textContent = i18n[lang].faqItem2;
+      }
+      if ($faqItem3) {
+        $faqItem3.textContent = i18n[lang].faqItem3;
       }
       if ($partnerTitle) {
         $partnerTitle.textContent = i18n[lang].partnerTitle;
