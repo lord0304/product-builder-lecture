@@ -1438,6 +1438,9 @@
         $modelUrl.value = storedModel || fallbackModel;
       }
       setAnimalStatus("idle");
+      if ($modelUrl && $modelUrl.value.trim()) {
+        loadAnimalModel();
+      }
     })();
 
     if ($partnerForm) {
