@@ -291,7 +291,7 @@
       display:flex;
       flex-wrap:wrap;
       gap: 10px;
-      align-items:center;
+      align-items:flex-start;
     }
 
     .setLabel{
@@ -305,22 +305,69 @@
       margin-right: 4px;
     }
 
-    .dish{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-weight: 700;
-      border: 1px solid rgba(255,255,255,0.18);
+    .dish-card{
+      flex: 1;
+      min-width: 240px;
+      display:grid;
+      grid-template-columns: 120px 1fr;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(0,0,0,0.22);
       box-shadow: 0 12px 26px rgba(0,0,0,0.28);
-      user-select:none;
-      transform: translateY(0);
-      transition: transform .12s ease, filter .12s ease;
-      color: rgba(255,255,255,0.95);
-      background: rgba(255,255,255,0.12);
     }
-    .dish:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+
+    .dish-photo{
+      width: 120px;
+      height: 120px;
+      border-radius: 14px;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+
+    .dish-info{
+      display:grid;
+      gap: 6px;
+    }
+
+    .dish-name{
+      font-weight: 800;
+      letter-spacing: -0.2px;
+    }
+
+    .dish-desc{
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .dish-tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 6px;
+    }
+
+    .dish-tag{
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.86);
+    }
+
+    @media (max-width: 620px){
+      .dish-card{
+        grid-template-columns: 1fr;
+      }
+      .dish-photo{
+        width: 100%;
+        height: 180px;
+      }
+    }
 
     .controls{
       display:flex;
@@ -1215,30 +1262,126 @@
     };
 
     const menuItems = [
-      { en: "Ginger scallion chicken", zh: "葱姜鸡" },
-      { en: "Sichuan mapo tofu", zh: "麻婆豆腐" },
-      { en: "Beef bibimbap", zh: "牛肉拌饭" },
-      { en: "Mushroom risotto", zh: "蘑菇烩饭" },
-      { en: "Grilled salmon with lemon", zh: "柠檬烤三文鱼" },
-      { en: "Teriyaki chicken bowl", zh: "照烧鸡饭" },
-      { en: "Spicy shrimp tacos", zh: "香辣虾塔可" },
-      { en: "Braised pork belly", zh: "红烧五花肉" },
-      { en: "Veggie curry with rice", zh: "蔬菜咖喱饭" },
-      { en: "Tomato basil pasta", zh: "番茄罗勒意面" },
-      { en: "Korean bulgogi bowl", zh: "韩式烤肉饭" },
-      { en: "Garlic butter steak", zh: "蒜香黄油牛排" },
-      { en: "Seafood udon", zh: "海鲜乌冬" },
-      { en: "Chicken shawarma plate", zh: "鸡肉沙威玛拼盘" },
-      { en: "Crispy tofu salad", zh: "香脆豆腐沙拉" },
-      { en: "Thai green curry", zh: "泰式绿咖喱" },
-      { en: "Kimchi fried rice", zh: "泡菜炒饭" },
-      { en: "Vegetable bibimbap", zh: "素拌饭" },
-      { en: "Lemon herb roast chicken", zh: "香草柠檬烤鸡" },
-      { en: "Hot pot mix", zh: "火锅拼盘" },
-      { en: "Pesto shrimp pasta", zh: "青酱虾意面" },
-      { en: "BBQ pulled pork sandwich", zh: "手撕猪肉三明治" },
-      { en: "Cantonese steamed fish", zh: "粤式清蒸鱼" },
-      { en: "Chicken tikka masala", zh: "印度黄油鸡" }
+      {
+        en: "Ginger scallion chicken",
+        zh: "葱姜鸡",
+        desc: {
+          en: "Fragrant ginger-scallion glaze with tender chicken.",
+          zh: "葱姜清香，鸡肉软嫩入味。"
+        },
+        tags: { en: ["Comfort", "15 min"], zh: ["家常", "15 分钟"] },
+        img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        en: "Sichuan mapo tofu",
+        zh: "麻婆豆腐",
+        desc: {
+          en: "Silky tofu with spicy chili bean sauce.",
+          zh: "麻辣鲜香，豆腐嫩滑。"
+        },
+        tags: { en: ["Spicy", "Vegan"], zh: ["麻辣", "素食"] },
+        img: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        en: "Beef bibimbap",
+        zh: "牛肉拌饭",
+        desc: {
+          en: "Seasoned beef, veggies, and egg over rice.",
+          zh: "牛肉与蔬菜拌饭，配温泉蛋。"
+        },
+        tags: { en: ["Korean", "Hearty"], zh: ["韩式", "饱腹"] },
+        img: "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        en: "Mushroom risotto",
+        zh: "蘑菇烩饭",
+        desc: {
+          en: "Creamy risotto with earthy mushrooms.",
+          zh: "奶香浓郁，蘑菇风味十足。"
+        },
+        tags: { en: ["Italian", "Cozy"], zh: ["意式", "暖胃"] },
+        img: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        en: "Grilled salmon with lemon",
+        zh: "柠檬烤三文鱼",
+        desc: {
+          en: "Bright citrus with flaky grilled salmon.",
+          zh: "柠檬提香，鱼肉鲜嫩。"
+        },
+        tags: { en: ["Light", "Omega-3"], zh: ["清爽", "营养"] },
+        img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        en: "Spicy shrimp tacos",
+        zh: "香辣虾塔可",
+        desc: {
+          en: "Zesty shrimp tucked into warm tortillas.",
+          zh: "香辣虾仁配热乎玉米饼。"
+        },
+        tags: { en: ["Tacos", "Weeknight"], zh: ["墨西哥风", "快手"] },
+        img: "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        en: "Tomato basil pasta",
+        zh: "番茄罗勒意面",
+        desc: {
+          en: "Classic tomato sauce with fresh basil.",
+          zh: "番茄酸甜，罗勒清香。"
+        },
+        tags: { en: ["Vegetarian", "25 min"], zh: ["素食", "25 分钟"] },
+        img: "https://images.unsplash.com/photo-1525755662778-989d0524087e?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        en: "Thai green curry",
+        zh: "泰式绿咖喱",
+        desc: {
+          en: "Coconut curry with herbs and veggies.",
+          zh: "椰香浓郁，香草与蔬菜丰富。"
+        },
+        tags: { en: ["Thai", "Fragrant"], zh: ["泰式", "香浓"] },
+        img: "https://images.unsplash.com/photo-1506084868230-bb9d95c24759?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        en: "Kimchi fried rice",
+        zh: "泡菜炒饭",
+        desc: {
+          en: "Smoky, tangy rice with a spicy kick.",
+          zh: "酸辣开胃，锅气十足。"
+        },
+        tags: { en: ["Korean", "Quick"], zh: ["韩式", "快手"] },
+        img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        en: "Chicken shawarma plate",
+        zh: "鸡肉沙威玛拼盘",
+        desc: {
+          en: "Spiced chicken with rice and salad.",
+          zh: "香料鸡配米饭与沙拉。"
+        },
+        tags: { en: ["Middle East", "Protein"], zh: ["中东风", "高蛋白"] },
+        img: "https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        en: "Crispy tofu salad",
+        zh: "香脆豆腐沙拉",
+        desc: {
+          en: "Crispy tofu with a bright citrus dressing.",
+          zh: "豆腐外脆内嫩，柑橘酱汁清爽。"
+        },
+        tags: { en: ["Vegan", "Fresh"], zh: ["素食", "清爽"] },
+        img: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        en: "BBQ pulled pork sandwich",
+        zh: "手撕猪肉三明治",
+        desc: {
+          en: "Slow-cooked pork piled high with slaw.",
+          zh: "慢炖手撕猪肉，配爽口沙拉。"
+        },
+        tags: { en: ["BBQ", "Weekend"], zh: ["烧烤", "周末"] },
+        img: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=900&q=80"
+      }
     ];
 
     function toast(msg){
@@ -1313,10 +1456,40 @@
         label.textContent = i18n[currentLang].optionLabel(idx + 1);
         row.appendChild(label);
 
-        const dish = document.createElement('div');
-        dish.className = "dish";
-        dish.textContent = item[currentLang];
-        row.appendChild(dish);
+        const card = document.createElement('div');
+        card.className = "dish-card";
+
+        const photo = document.createElement('img');
+        photo.className = "dish-photo";
+        photo.alt = `${item[currentLang]} photo`;
+        photo.src = item.img;
+        card.appendChild(photo);
+
+        const info = document.createElement('div');
+        info.className = "dish-info";
+
+        const name = document.createElement('div');
+        name.className = "dish-name";
+        name.textContent = item[currentLang];
+        info.appendChild(name);
+
+        const desc = document.createElement('p');
+        desc.className = "dish-desc";
+        desc.textContent = item.desc[currentLang];
+        info.appendChild(desc);
+
+        const tags = document.createElement('div');
+        tags.className = "dish-tags";
+        item.tags[currentLang].forEach((tag) => {
+          const chip = document.createElement('span');
+          chip.className = "dish-tag";
+          chip.textContent = tag;
+          tags.appendChild(chip);
+        });
+        info.appendChild(tags);
+
+        card.appendChild(info);
+        row.appendChild(card);
 
         $menu.appendChild(row);
       });
