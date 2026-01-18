@@ -1886,9 +1886,14 @@
 
     (function initAnimalModel(){
       const storedModel = localStorage.getItem('tm_model_url');
-      const fallbackModel = "https://teachablemachine.withgoogle.com/models/A2USJBZAQ/";
+      const fallbackModel = "https://teachablemachine.withgoogle.com/models/v8c3oMHk4/";
+      const legacyModel = "https://teachablemachine.withgoogle.com/models/A2USJBZAQ/";
+      if (storedModel === legacyModel) {
+        localStorage.setItem('tm_model_url', fallbackModel);
+      }
       if ($modelUrl) {
-        $modelUrl.value = storedModel || fallbackModel;
+        const nextModel = storedModel === legacyModel ? fallbackModel : storedModel;
+        $modelUrl.value = nextModel || fallbackModel;
       }
       setAnimalStatus("idle");
       if ($modelUrl && $modelUrl.value.trim()) {
