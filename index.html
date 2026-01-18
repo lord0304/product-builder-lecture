@@ -331,6 +331,128 @@
       gap: 12px;
     }
 
+    .animal{
+      margin-top: 14px;
+      padding: 16px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.06);
+      display:grid;
+      gap: 14px;
+    }
+
+    .animal-header{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+
+    .animal h2{
+      margin: 0;
+      font-size: 18px;
+      letter-spacing:-0.2px;
+    }
+
+    .animal p{
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .animal-status{
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(0,0,0,0.22);
+      color: rgba(255,255,255,0.86);
+      white-space: nowrap;
+    }
+
+    .animal-controls{
+      display:grid;
+      gap: 12px;
+    }
+
+    .animal-buttons{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      align-items:center;
+    }
+
+    .animal-preview{
+      display:grid;
+      gap: 12px;
+    }
+
+    .animal-preview img{
+      width: min(360px, 100%);
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.16);
+      object-fit: cover;
+      aspect-ratio: 3 / 4;
+      background: rgba(0,0,0,0.25);
+    }
+
+    #animalPreview:not([src]),
+    #animalPreview[src=""]{
+      display:none;
+    }
+
+    .animal-results{
+      display:grid;
+      gap: 8px;
+    }
+
+    #animalImage{
+      position: absolute;
+      left: -9999px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .animal-result{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(0,0,0,0.22);
+      font-size: 13px;
+    }
+
+    .animal-bar{
+      flex: 1;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      overflow:hidden;
+    }
+
+    .animal-bar span{
+      display:block;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(255,90,150,0.6), rgba(120,255,150,0.5), rgba(90,200,255,0.6));
+    }
+
+    body[data-theme="light"] .animal-status{
+      color: rgba(12,16,24,0.86);
+      border-color: rgba(12,16,24,0.18);
+      background: rgba(12,16,24,0.06);
+    }
+
+    body[data-theme="light"] .animal-result{
+      border-color: rgba(12,16,24,0.14);
+      background: rgba(255,255,255,0.9);
+    }
+
     .partner h2{
       margin: 0;
       font-size: 18px;
@@ -558,17 +680,48 @@
           </div>
         </div>
 
-        <div class="meta">
-          <div id="metaText">Randomized from curated menu ideas.</div>
-          <div id="last" class="mono">last: -</div>
+      <div class="meta">
+        <div id="metaText">Randomized from curated menu ideas.</div>
+        <div id="last" class="mono">last: -</div>
+      </div>
+
+      <hr class="divider" aria-hidden="true" />
+
+      <section class="animal" id="animalSection" aria-label="Animal match test">
+        <div class="animal-header">
+          <div>
+            <h2 id="animalTitle">Animal Match (Teachable Machine)</h2>
+            <p id="animalIntro">Upload a portrait photo to see which animal vibe you match most.</p>
+          </div>
+          <div class="animal-status" id="animalStatus">Model not loaded</div>
         </div>
 
-        <hr class="divider" aria-hidden="true" />
+        <div class="animal-controls">
+          <div class="field">
+            <label for="modelUrl" id="modelUrlLabel">Model URL</label>
+            <input id="modelUrl" type="url" placeholder="https://teachablemachine.withgoogle.com/models/XXXX/" />
+          </div>
+          <div class="animal-buttons">
+            <button class="btn" id="modelLoad" type="button">Load model</button>
+            <label class="btn primary" for="animalImage" id="animalPick">Choose photo</label>
+            <input id="animalImage" type="file" accept="image/*" />
+          </div>
+        </div>
 
-        <section class="partner" id="partnerSection" aria-label="Partnership enquiry form">
-          <div>
-            <h2 id="partnerTitle">Partnership enquiry</h2>
-            <p id="partnerIntro">Tell us about your brand, audience, and collaboration idea. We will reply within 3 business days.</p>
+        <div class="animal-preview">
+          <img id="animalPreview" alt="Photo preview for animal match" />
+          <div class="animal-results" id="animalResults"></div>
+        </div>
+
+        <p class="note" id="animalNote">Tip: export an Image model from Teachable Machine and paste its model URL.</p>
+      </section>
+
+      <hr class="divider" aria-hidden="true" />
+
+      <section class="partner" id="partnerSection" aria-label="Partnership enquiry form">
+        <div>
+          <h2 id="partnerTitle">Partnership enquiry</h2>
+          <p id="partnerIntro">Tell us about your brand, audience, and collaboration idea. We will reply within 3 business days.</p>
           </div>
 
           <form class="partner-form" id="partnerForm" action="https://formspree.io/f/xqeeenqr" method="POST">
@@ -652,6 +805,7 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
   <script>
     const $menu = document.getElementById('menu');
     const $btnPick = document.getElementById('btnPick');
@@ -695,12 +849,27 @@
     const $partnerWebsite = document.getElementById('partnerWebsite');
     const $partnerTimeline = document.getElementById('partnerTimeline');
     const $partnerMessage = document.getElementById('partnerMessage');
+    const $animalTitle = document.getElementById('animalTitle');
+    const $animalIntro = document.getElementById('animalIntro');
+    const $animalStatus = document.getElementById('animalStatus');
+    const $modelUrl = document.getElementById('modelUrl');
+    const $modelLoad = document.getElementById('modelLoad');
+    const $animalPick = document.getElementById('animalPick');
+    const $animalImage = document.getElementById('animalImage');
+    const $animalPreview = document.getElementById('animalPreview');
+    const $animalResults = document.getElementById('animalResults');
+    const $animalNote = document.getElementById('animalNote');
+    const $modelUrlLabel = document.getElementById('modelUrlLabel');
 
     let lastResultText = "";
     let lastStamp = "-";
     let hasResults = false;
     let currentLang = "en";
     let lastItems = [];
+    let tmModel = null;
+    let tmMaxPredictions = 0;
+    let animalStatusState = "idle";
+    let lastAnimalPredictions = [];
 
     const i18n = {
       en: {
@@ -752,6 +921,23 @@
         partnerStatusSending: "Sending...",
         partnerStatusSuccess: "Thanks for reaching out! We will get back to you soon.",
         partnerStatusError: "Something went wrong. Please try again or email us directly.",
+        animalTitle: "Animal Match (Teachable Machine)",
+        animalIntro: "Upload a portrait photo to see which animal vibe you match most.",
+        animalModelLabel: "Model URL",
+        animalModelPlaceholder: "https://teachablemachine.withgoogle.com/models/XXXX/",
+        animalLoad: "Load model",
+        animalPick: "Choose photo",
+        animalStatusIdle: "Model not loaded",
+        animalStatusLoading: "Loading model...",
+        animalStatusReady: "Model ready",
+        animalStatusError: "Model load failed",
+        animalNote: "Tip: export an Image model from Teachable Machine and paste its model URL.",
+        animalResultTitle: "Top matches",
+        animalToastNeedUrl: "Add a model URL first.",
+        animalToastScriptFail: "Teachable Machine script failed to load.",
+        animalToastReady: "Model ready!",
+        animalToastLoadFail: "Model load failed.",
+        animalToastNeedModel: "Load the model first.",
         optionLabel: (n) => `Option ${n}`,
         countOption: (n) => n === 1 ? "1 pick" : `${n} picks`
       },
@@ -804,6 +990,23 @@
         partnerStatusSending: "发送中...",
         partnerStatusSuccess: "感谢联系！我们会尽快回复。",
         partnerStatusError: "提交失败，请重试或通过邮件联系。",
+        animalTitle: "动物性格测试（Teachable Machine）",
+        animalIntro: "上传一张人物照片，看看最像哪种动物。",
+        animalModelLabel: "模型链接",
+        animalModelPlaceholder: "https://teachablemachine.withgoogle.com/models/XXXX/",
+        animalLoad: "加载模型",
+        animalPick: "选择照片",
+        animalStatusIdle: "模型未加载",
+        animalStatusLoading: "加载模型中...",
+        animalStatusReady: "模型已就绪",
+        animalStatusError: "模型加载失败",
+        animalNote: "提示：在 Teachable Machine 导出图像模型并粘贴模型链接。",
+        animalResultTitle: "匹配结果",
+        animalToastNeedUrl: "请先填写模型链接。",
+        animalToastScriptFail: "Teachable Machine 脚本加载失败。",
+        animalToastReady: "模型已就绪！",
+        animalToastLoadFail: "模型加载失败。",
+        animalToastNeedModel: "请先加载模型。",
         optionLabel: (n) => `选项 ${n}`,
         countOption: (n) => `${n}份`
       }
@@ -1015,6 +1218,27 @@
       if ($partnerMessage) {
         $partnerMessage.placeholder = i18n[lang].partnerPlaceholderMessage;
       }
+      if ($animalTitle) {
+        $animalTitle.textContent = i18n[lang].animalTitle;
+      }
+      if ($animalIntro) {
+        $animalIntro.textContent = i18n[lang].animalIntro;
+      }
+      if ($modelUrlLabel) {
+        $modelUrlLabel.textContent = i18n[lang].animalModelLabel;
+      }
+      if ($modelUrl) {
+        $modelUrl.placeholder = i18n[lang].animalModelPlaceholder;
+      }
+      if ($modelLoad) {
+        $modelLoad.textContent = i18n[lang].animalLoad;
+      }
+      if ($animalPick) {
+        $animalPick.textContent = i18n[lang].animalPick;
+      }
+      if ($animalNote) {
+        $animalNote.textContent = i18n[lang].animalNote;
+      }
 
       Array.from($count.options).forEach((opt) => {
         const n = parseInt(opt.value, 10);
@@ -1030,6 +1254,108 @@
         lastResultText = itemsToText(lastItems);
         $last.textContent = `${i18n[currentLang].lastPrefix} ${lastStamp}`;
       }
+
+      if (lastAnimalPredictions.length) {
+        renderAnimalResults(lastAnimalPredictions);
+      }
+      setAnimalStatus(animalStatusState);
+    }
+
+    function setAnimalStatus(type){
+      if (!$animalStatus) {
+        return;
+      }
+      animalStatusState = type;
+      const copy = {
+        idle: i18n[currentLang].animalStatusIdle,
+        loading: i18n[currentLang].animalStatusLoading,
+        ready: i18n[currentLang].animalStatusReady,
+        error: i18n[currentLang].animalStatusError
+      };
+      $animalStatus.textContent = copy[type] || copy.idle;
+    }
+
+    function normalizeModelUrl(url){
+      if (!url) {
+        return "";
+      }
+      return url.endsWith("/") ? url : `${url}/`;
+    }
+
+    async function loadAnimalModel(){
+      if (!$modelUrl) {
+        return;
+      }
+      const url = normalizeModelUrl($modelUrl.value.trim());
+      if (!url) {
+        setAnimalStatus("error");
+        toast(i18n[currentLang].animalToastNeedUrl);
+        return;
+      }
+      if (!window.tmImage || !window.tmImage.load) {
+        setAnimalStatus("error");
+        toast(i18n[currentLang].animalToastScriptFail);
+        return;
+      }
+      try {
+        setAnimalStatus("loading");
+        tmModel = await window.tmImage.load(`${url}model.json`, `${url}metadata.json`);
+        tmMaxPredictions = tmModel.getTotalClasses();
+        localStorage.setItem('tm_model_url', url);
+        setAnimalStatus("ready");
+        toast(i18n[currentLang].animalToastReady);
+        if ($animalPreview && $animalPreview.src) {
+          predictAnimal();
+        }
+      } catch (err) {
+        tmModel = null;
+        tmMaxPredictions = 0;
+        setAnimalStatus("error");
+        toast(i18n[currentLang].animalToastLoadFail);
+      }
+    }
+
+    function renderAnimalResults(predictions){
+      if (!$animalResults) {
+        return;
+      }
+      lastAnimalPredictions = predictions.slice();
+      $animalResults.innerHTML = "";
+      const title = document.createElement('div');
+      title.className = "setLabel";
+      title.textContent = i18n[currentLang].animalResultTitle;
+      $animalResults.appendChild(title);
+
+      predictions.forEach((pred) => {
+        const row = document.createElement('div');
+        row.className = "animal-result";
+
+        const label = document.createElement('div');
+        label.textContent = pred.className;
+        row.appendChild(label);
+
+        const bar = document.createElement('div');
+        bar.className = "animal-bar";
+        const fill = document.createElement('span');
+        fill.style.width = `${Math.round(pred.probability * 100)}%`;
+        bar.appendChild(fill);
+        row.appendChild(bar);
+
+        const pct = document.createElement('div');
+        pct.textContent = `${Math.round(pred.probability * 100)}%`;
+        row.appendChild(pct);
+
+        $animalResults.appendChild(row);
+      });
+    }
+
+    async function predictAnimal(){
+      if (!tmModel || !$animalPreview) {
+        return;
+      }
+      const predictions = await tmModel.predict($animalPreview, false);
+      predictions.sort((a, b) => b.probability - a.probability);
+      renderAnimalResults(predictions.slice(0, Math.min(5, tmMaxPredictions)));
     }
 
     function generate(){
@@ -1077,6 +1403,41 @@
     $lang.addEventListener('change', () => {
       applyLang($lang.value);
     });
+
+    if ($animalImage) {
+      $animalImage.addEventListener('change', async (event) => {
+        const file = event.target.files && event.target.files[0];
+        if (!file || !$animalPreview) {
+          return;
+        }
+        if ($animalResults) {
+          $animalResults.innerHTML = "";
+        }
+        lastAnimalPredictions = [];
+        const url = URL.createObjectURL(file);
+        $animalPreview.onload = () => {
+          URL.revokeObjectURL(url);
+          if (!tmModel) {
+            toast(i18n[currentLang].animalToastNeedModel);
+            return;
+          }
+          predictAnimal();
+        };
+        $animalPreview.src = url;
+      });
+    }
+
+    if ($modelLoad) {
+      $modelLoad.addEventListener('click', loadAnimalModel);
+    }
+
+    (function initAnimalModel(){
+      const storedModel = localStorage.getItem('tm_model_url');
+      if ($modelUrl && storedModel) {
+        $modelUrl.value = storedModel;
+      }
+      setAnimalStatus("idle");
+    })();
 
     if ($partnerForm) {
       $partnerForm.addEventListener('submit', async (event) => {
